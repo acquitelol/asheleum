@@ -22,7 +22,7 @@ export default function AlbumInput() {
           onChange={(e) => setAlbumUrl(e.target.value)}
           placeholder="Album URL"
         />
-        <Button type="submit">Add album</Button>
+        <Button type="submit">Add</Button>
       </form>
     </>
   );

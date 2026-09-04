@@ -1,11 +1,12 @@
 import { useAlbums, type Album } from "@/context/AlbumContext";
 import styles from "./AlbumRow.module.css";
 import Button from "../Button";
-import TrashIcon from "../TrashIcon";
+import TrashIcon from "@/components/icons/TrashIcon";
 import { deleteAlbum } from "@/lib/albums";
+import ConfirmIcon from "../icons/ConfirmIcon";
 
 export default function AlbumRow({ album }: { album: Album }) {
-  const { setAlbums } = useAlbums();
+  const { deleting, albumIdsToDelete, setAlbumIdsToDelete } = useAlbums();
 
   return (
     <div className={styles.albumRow}>
@@ -33,13 +34,22 @@ export default function AlbumRow({ album }: { album: Album }) {
         </div>*/}
       </div>
 
-      <Button
-        className={styles.albumRow__delete}
-        onClick={() => deleteAlbum(album.id, setAlbums)}
-        kind={"negative"}
-      >
-        <TrashIcon size={20} />
-      </Button>
+      {deleting && (
+        <Button
+          className={styles.albumRow__delete}
+          onClick={() =>
+            setAlbumIdsToDelete((albums) =>
+              albums.includes(album.id)
+                ? albums.filter((albumId) => albumId !== album.id)
+                : [...albums, album.id],
+            )
+          }
+          kind={"neutral"}
+          border
+        >
+          {albumIdsToDelete.includes(album.id) && <ConfirmIcon />}
+        </Button>
+      )}
     </div>
   );
 }

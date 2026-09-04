@@ -1,7 +1,7 @@
 import { API_URL } from "./constants";
 
-export async function getAlbums() {
-  return fetch(`${API_URL}/api/albums`, {
+export async function getAlbums(sortDir: boolean) {
+  return fetch(`${API_URL}/api/albums?sortDir=${sortDir}`, {
     credentials: "include",
   }).then((res) => res.json());
 }

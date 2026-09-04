@@ -39,3 +39,15 @@
         background: var(--color-danger-hover);
     }
 }
+
+.neutral {
+    background: var(--color-surface-above);
+
+    &:hover {
+        background: var(--color-surface-above-hover);
+    }
+}
+
+.border {
+    border: 1px solid #ffffff40;
+}

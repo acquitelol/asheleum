@@ -22,12 +22,14 @@ export default function () {
         ) : (
           <p>You don't have any albums yet. Go and get some!</p>
         )}
-        <Button
-          onClick={() => navigate("/albums")}
-          // style={{ marginTop: "1em" }}
-        >
-          View all
-        </Button>
+        {albums.length ? (
+          <Button
+            onClick={() => navigate("/albums")}
+            // style={{ marginTop: "1em" }}
+          >
+            View all
+          </Button>
+        ) : null}
       </div>
     </div>
   );

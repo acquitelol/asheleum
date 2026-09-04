@@ -27,15 +27,23 @@
 }
 
 .route {
+    font-weight: 600;
     padding-inline: 1em;
     padding-block: 0.5em;
     margin: 0.25em;
-    transition: background-color 0.25s ease-out;
+    transform: scale(1);
+    transition:
+        background-color 0.25s ease-out,
+        transform 0.3s ease,
+        margin 0.3s ease;
     cursor: pointer;
     border-radius: 999px;
 
     &:hover {
         background-color: #00000080;
+        transform: scale(1.1);
+        margin-inline: 0.5em;
+        margin-block: 0.3em;
     }
 }
 

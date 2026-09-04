@@ -3,7 +3,7 @@ import { auth } from "../auth.ts";
 import { fromNodeHeaders } from "better-auth/node";
 import { db } from "../db/index.ts";
 import { album, albumTag, tag, userAlbum } from "../db/schema.ts";
-import { and, eq, desc } from "drizzle-orm";
+import { and, eq, asc } from "drizzle-orm";
 import { decodeHtml } from "../utils.ts";
 
 async function extractMetadata(url: string) {
@@ -30,8 +30,9 @@ async function extractMetadata(url: string) {
   }
 
   const parts = (metaRes[0] as string).match(
-    /(.*) - (EP|Album|Single) by (.*)/,
+    /(.*) - (EP|Album|Single|playlist) by (.*)/,
   )!;
+  console.log({ metaRes, parts });
 
   return {
     id,
@@ -40,6 +41,29 @@ async function extractMetadata(url: string) {
     artist: decodeHtml(parts[3]!),
     cover: imageRes,
     url,
+  };
+}
+
+async function getAlbumWithTags(albumId: string, userId: string) {
+  const [albumResult] = await db
+    .select({ album })
+    .from(userAlbum)
+    .innerJoin(album, eq(userAlbum.albumId, album.id))
+    .where(and(eq(userAlbum.albumId, albumId), eq(userAlbum.userId, userId)));
+
+  if (!albumResult) {
+    return null;
+  }
+
+  const tags = await db
+    .select({ tag })
+    .from(albumTag)
+    .innerJoin(tag, eq(albumTag.tagId, tag.id))
+    .where(and(eq(albumTag.albumId, albumId), eq(albumTag.userId, userId)));
+
+  return {
+    ...albumResult.album,
+    tags: tags.map(({ tag }) => tag),
   };
 }
 
@@ -67,21 +91,31 @@ export async function registerAlbums(app: Express) {
       ReturnType<typeof extractMetadata> extends Promise<infer T> ? T : never
     >;
 
-    const [newAlbum] = await db
+    await db
       .insert(album)
       .values(meta)
-      .onConflictDoNothing()
-      .returning();
+      .onConflictDoUpdate({
+        target: album.id,
+        set: {
+          name: meta.name,
+          type: meta.type,
+          artist: meta.artist,
+          cover: meta.cover,
+          url: meta.url,
+        },
+      });
 
     await db
       .insert(userAlbum)
-      .values({ userId: session.user.id, albumId: meta.id })
+      .values({
+        userId: session.user.id,
+        albumId: meta.id,
+      })
       .onConflictDoNothing();
 
-    return res.json(
-      newAlbum ??
-        (await db.select().from(album).where(eq(album.id, meta.id)))[0],
-    );
+    const result = await getAlbumWithTags(meta.id, session.user.id);
+
+    return res.json(result);
   });
 
   app.get("/api/albums", async (req, res) => {
@@ -98,7 +132,7 @@ export async function registerAlbums(app: Express) {
       .from(userAlbum)
       .innerJoin(album, eq(userAlbum.albumId, album.id))
       .where(eq(userAlbum.userId, session.user.id))
-      .orderBy(desc(album.createdAt));
+      .orderBy(asc(album.name));
 
     const tags = await db
       .select({

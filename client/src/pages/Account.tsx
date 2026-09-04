@@ -7,7 +7,7 @@ export default function () {
     <div>
       <Navigation />
       <h1>Hello world from Account!</h1>
-      <Button onClick={signOut} type={"positive"}>
+      <Button onClick={signOut} kind={"positive"}>
         Sign out
       </Button>
     </div>
