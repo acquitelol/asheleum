@@ -4,9 +4,8 @@ import cors from "cors";
 import { toNodeHandler } from "better-auth/node";
 import { auth } from "./auth.js";
 import { fromNodeHeaders } from "better-auth/node";
-import { db } from "./db/index.ts";
-import { tag } from "./db/schema.ts";
-import { eq } from "drizzle-orm";
+import { registerTags } from "./routes/tags.ts";
+import { registerAlbums } from "./routes/albums.ts";
 
 const app = express();
 
@@ -43,46 +42,5 @@ app.get("/api/me", async (req, res) => {
   });
 });
 
-app.get("/api/tags", async (req, res) => {
-  const session = await auth.api.getSession({
-    headers: fromNodeHeaders(req.headers),
-  });
-
-  if (!session) {
-    return res.status(401).json({ error: "Unauthorized" });
-  }
-
-  const tags = await db
-    .select()
-    .from(tag)
-    .where(eq(tag.userId, session.user.id));
-
-  return res.json(tags);
-});
-
-app.post("/api/tags", async (req, res) => {
-  const session = await auth.api.getSession({
-    headers: fromNodeHeaders(req.headers),
-  });
-
-  if (!session) {
-    return res.status(401).json({ error: "Unauthorized" });
-  }
-
-  const name = req.body.name?.trim();
-
-  if (!name) {
-    return res.status(400).json({ error: "Tag name is required" });
-  }
-
-  const [newTag] = await db
-    .insert(tag)
-    .values({
-      id: crypto.randomUUID(),
-      userId: session.user.id,
-      name,
-    })
-    .returning();
-
-  return res.json(newTag);
-});
+registerTags(app);
+registerAlbums(app);
