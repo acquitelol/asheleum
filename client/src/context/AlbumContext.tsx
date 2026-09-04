@@ -42,11 +42,11 @@ export function AlbumProvider({ children }: { children: React.ReactNode }) {
   const [sortDir, setSortDir] = useState(false);
 
   useEffect(() => {
-    getAlbums(sortDir)
+    getAlbums()
       .then(setAlbums)
       .catch(console.error)
       .finally(() => setLoading(false));
-  }, [sortDir]);
+  }, []);
 
   const processedAlbums = useMemo(() => {
     const res =
