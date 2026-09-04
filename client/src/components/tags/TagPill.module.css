@@ -1,0 +1,14 @@
+.tagPill {
+    border-radius: var(--radius-pill);
+    background-color: var(--color-surface-above);
+    transition: background-color 0.25s ease-out;
+
+    margin-top: 0.5em;
+    padding-block: 0.5em;
+    padding-inline: 0.75em;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--color-primary);
+    }
+}
