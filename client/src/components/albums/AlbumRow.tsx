@@ -1,6 +1,5 @@
 import { useAlbums, type Album } from "@/context/AlbumContext";
 import styles from "./AlbumRow.module.css";
-import TagPill from "../tags/TagPill";
 import Button from "../Button";
 import TrashIcon from "../TrashIcon";
 import { deleteAlbum } from "@/lib/albums";

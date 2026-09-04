@@ -10,9 +10,13 @@ export default function AlbumTable() {
     <Loading />
   ) : (
     <div className={styles.albumTable}>
-      {albums.map((album) => (
-        <AlbumRow album={album} key={album.id} />
-      ))}
+      {albums.length ? (
+        albums.map((album) => <AlbumRow album={album} key={album.id} />)
+      ) : (
+        <p style={{ marginInline: "1em" }}>
+          You don't have any albums yet. Go and get some!
+        </p>
+      )}
     </div>
   );
 }
