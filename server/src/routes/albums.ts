@@ -4,7 +4,7 @@ import { fromNodeHeaders } from "better-auth/node";
 import { db } from "../db/index.ts";
 import { album, albumTag, tag, userAlbum } from "../db/schema.ts";
 import { and, eq, asc } from "drizzle-orm";
-import { decodeHtml } from "../utils.ts";
+import { capitalize, decodeHtml } from "../utils.ts";
 
 async function extractMetadata(url: string) {
   const res = await fetch(url);
@@ -32,12 +32,11 @@ async function extractMetadata(url: string) {
   const parts = (metaRes[0] as string).match(
     /(.*) - (EP|Album|Single|playlist) by (.*)/,
   )!;
-  console.log({ metaRes, parts });
 
   return {
     id,
     name: decodeHtml(parts[1]!),
-    type: parts[2],
+    type: capitalize(parts[2]!),
     artist: decodeHtml(parts[3]!),
     cover: imageRes,
     url,
