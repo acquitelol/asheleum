@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import getAlbums from "@/lib/albums";
+import { getAlbums } from "@/lib/albums";
 
 export type Album = {
   id: string;

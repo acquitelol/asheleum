@@ -3,15 +3,6 @@ import styles from "./AlbumCard.module.css";
 import TagPill from "../tags/TagPill";
 
 export default function AlbumCard({ album }: { album: Album }) {
-  // return (
-  //   <div className={styles.albumCard}>
-  //     <div className={styles.albumCardInner}>
-  //       <img src={album.cover} className={styles.albumCover} />
-  //       <h5>{album.name}</h5>
-  //     </div>
-  //   </div>
-  // );
-
   return (
     <div className={styles.albumCard}>
       <img
@@ -21,7 +12,9 @@ export default function AlbumCard({ album }: { album: Album }) {
       />
 
       <div className={styles.albumCard__content}>
-        <div className={styles.albumCard__artist}>{album.artist}</div>
+        <div className={styles.albumCard__artist}>
+          {album.type} | {album.artist}
+        </div>
 
         <div
           className={styles.albumCard__title}

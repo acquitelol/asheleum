@@ -29,6 +29,7 @@ export default function () {
             <div
               className={styles.route}
               onClick={() => navigate(`/${route.path}`)}
+              key={route.name}
             >
               {route.name}
             </div>
