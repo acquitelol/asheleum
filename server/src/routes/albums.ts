@@ -29,7 +29,9 @@ async function extractMetadata(url: string) {
     };
   }
 
-  const parts = (metaRes[0] as string).match(/(.*) - (EP|Album) by (.*)/)!;
+  const parts = (metaRes[0] as string).match(
+    /(.*) - (EP|Album|Single) by (.*)/,
+  )!;
 
   return {
     id,
