@@ -3,7 +3,7 @@ import { auth } from "../auth.ts";
 import { fromNodeHeaders } from "better-auth/node";
 import { db } from "../db/index.ts";
 import { tag } from "../db/schema.ts";
-import { and, eq } from "drizzle-orm";
+import { and, eq, desc } from "drizzle-orm";
 
 export async function registerTags(app: Express) {
   app.get("/api/tags", async (req, res) => {
@@ -18,7 +18,8 @@ export async function registerTags(app: Express) {
     const tags = await db
       .select()
       .from(tag)
-      .where(eq(tag.userId, session.user.id));
+      .where(eq(tag.userId, session.user.id))
+      .orderBy(desc(tag.createdAt));
 
     return res.json(tags);
   });
