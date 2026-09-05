@@ -4,6 +4,13 @@
     margin-top: 1em;
 }
 
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+}
+
 .textInput {
     flex: 1;
     min-width: 0;

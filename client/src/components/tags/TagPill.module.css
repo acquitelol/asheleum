@@ -20,7 +20,7 @@
 
     &:hover {
         background-color: var(--color-surface-above-hover);
-        transform: scale(1.05);
+        transform: scale(1.02);
         border: 1px solid var(--color-pill);
     }
 
@@ -31,7 +31,14 @@
 
     &:active:hover {
         background-color: var(--color-primary-hover);
-        transform: scale(1.1);
         border: 1px solid var(--color-pill-hover);
     }
+}
+
+.quantity {
+    color: var(--color-text-muted);
+}
+
+.selectedQuantity {
+    color: var(--color-text-primary);
 }

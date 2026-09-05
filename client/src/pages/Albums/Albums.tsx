@@ -1,6 +1,6 @@
 import Navigation from "@/components/navigation/Navigation";
 import styles from "./Albums.module.css";
-import AlbumInput from "./AlbumInput";
+import AlbumInput from "@/components/albums/AlbumInput";
 import AlbumTable from "@/components/albums/AlbumTable";
 import AlbumActions from "@/components/albums/AlbumActions";
 

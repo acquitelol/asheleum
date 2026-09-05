@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { getAlbums } from "@/lib/albums";
 import { useTags, type Tag } from "./TagContext";
 import { useSearchParams } from "react-router-dom";
+import type { ALBUM_FORMATS } from "@/components/albums/AlbumKindFilter";
 
 export type Album = {
   id: string;
@@ -15,14 +16,16 @@ export type Album = {
 };
 
 type AlbumContextType = {
-  albums: Album[] | null;
+  albums: Album[];
   setAlbums: React.Dispatch<React.SetStateAction<Album[]>>;
   sortDir: boolean;
+  searchQuery: string;
+  formatQuery: (keyof typeof ALBUM_FORMATS)[];
   deleting: boolean;
   setDeleting: React.Dispatch<React.SetStateAction<boolean>>;
   albumIdsToDelete: string[];
   setAlbumIdsToDelete: React.Dispatch<React.SetStateAction<string[]>>;
-  processedAlbums: Album[] | null;
+  processedAlbums: Album[];
   loading: boolean;
 };
 
@@ -30,13 +33,13 @@ const AlbumContext = createContext<AlbumContextType | null>(null);
 
 export function AlbumProvider({ children }: { children: React.ReactNode }) {
   const [albumIdsToDelete, setAlbumIdsToDelete] = useState<string[]>([]);
-  const [albums, setAlbums] = useState<Album[] | null>(null);
-  const [searchParams, _] = useSearchParams();
+  const [albums, setAlbums] = useState<Album[]>([]);
   const [deleting, setDeleting] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [searchParams] = useSearchParams();
   const { tagFilter } = useTags();
 
-  // false == asc, true == desc
+  // false == desc, true == asc
   const sortDir = searchParams.get("sort") === "asc";
   const searchQuery = searchParams.get("search") ?? "";
   const formatQuery = (searchParams.get("format") ?? "")
@@ -44,6 +47,7 @@ export function AlbumProvider({ children }: { children: React.ReactNode }) {
     .filter(Boolean);
 
   useEffect(() => {
+    // setLoading(false);
     getAlbums()
       .then(setAlbums)
       .catch(console.error)
@@ -88,6 +92,8 @@ export function AlbumProvider({ children }: { children: React.ReactNode }) {
         albums,
         setAlbums,
         sortDir,
+        searchQuery,
+        formatQuery: formatQuery as any[],
         deleting,
         setDeleting,
         albumIdsToDelete,

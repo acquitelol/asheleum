@@ -46,7 +46,7 @@ export async function deleteTag(
   });
 
   if (!res.ok) {
-    throw new Error("Failed to delete album");
+    throw new Error("Failed to delete tag");
   }
 
   setTags((tags) => tags.filter((tag) => tag.id !== tagId));

@@ -3,6 +3,8 @@ import styles from "./AlbumInput.module.css";
 import { useState } from "react";
 import Button from "@/components/Button";
 import { addAlbum } from "@/lib/albums";
+import AlbumIcon from "../icons/AlbumIcon";
+import AlbumAddIcon from "../icons/AlbumAddIcon";
 
 export default function AlbumInput() {
   const [albumUrl, setAlbumUrl] = useState("");
@@ -22,7 +24,8 @@ export default function AlbumInput() {
           onChange={(e) => setAlbumUrl(e.target.value)}
           placeholder="Album URL"
         />
-        <Button type="submit" border>
+        <Button type="submit" border className={styles.button}>
+          <AlbumAddIcon size={18} />
           Add
         </Button>
       </form>

@@ -8,9 +8,11 @@ const MAX_SHOWN = 2;
 export default function TagPile({
   tags,
   size = 1,
+  selected = () => false,
 }: {
   tags: Tag[];
   size?: number;
+  selected?: (t: Tag) => boolean;
 }) {
   const { setTagFilter } = useTags();
   const navigate = useNavigate();
@@ -23,6 +25,7 @@ export default function TagPile({
           size={size}
           key={tag.id}
           clickable
+          selected={selected(tag)}
           onClick={() => {
             setTagFilter([tag]);
             navigate("/albums?filter=true");

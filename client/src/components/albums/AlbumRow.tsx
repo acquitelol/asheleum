@@ -1,13 +1,13 @@
 import { useAlbums, type Album } from "@/context/AlbumContext";
 import styles from "./AlbumRow.module.css";
 import Button from "../Button";
-import TrashIcon from "@/components/icons/TrashIcon";
-import { deleteAlbum } from "@/lib/albums";
 import ConfirmIcon from "../icons/ConfirmIcon";
 import TagPile from "../tags/TagPile";
+import { useTags } from "@/context/TagContext";
 
 export default function AlbumRow({ album }: { album: Album }) {
   const { deleting, albumIdsToDelete, setAlbumIdsToDelete } = useAlbums();
+  const { tagFilter } = useTags();
 
   return (
     <div className={styles.albumRow}>
@@ -36,7 +36,10 @@ export default function AlbumRow({ album }: { album: Album }) {
       </div>
 
       <div className={styles.albumRow__trailing}>
-        <TagPile tags={album.tags} />
+        <TagPile
+          tags={album.tags}
+          selected={(tag) => tagFilter.some((t) => t.id == tag.id)}
+        />
         {deleting && (
           <Button
             className={styles.albumRow__delete}

@@ -1,10 +1,10 @@
 import { useAlbums } from "@/context/AlbumContext";
+import { NoExist } from "@/components/NoExist";
 import styles from "./CondensedAlbums.module.css";
 import Loading from "../Loading";
 import AlbumCard from "./AlbumCard";
 import Button from "../Button";
 import { useNavigate } from "react-router-dom";
-import { NoAlbumsExist } from "../NoAlbums";
 
 export default function () {
   const { albums, loading } = useAlbums();
@@ -21,7 +21,7 @@ export default function () {
             .slice(0, 10)
             .map((album) => <AlbumCard album={album} key={album.id} />)
         ) : (
-          <NoAlbumsExist />
+          <NoExist />
         )}
         {albums.length ? (
           <Button

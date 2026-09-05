@@ -17,10 +17,6 @@
     gap: 0.5em;
 }
 
-.filtering {
-    background-color: var(--color-surface-above-hover);
-}
-
 .squareButton {
     width: 2.5em;
     height: 2.5em;
@@ -36,26 +32,11 @@
         opacity 0.2s ease;
 }
 
-.filterSection {
-    background-color: var(--color-background);
-    margin-top: 1em;
-    padding: 1em;
-    padding-inline: 1em;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--color-border);
-    min-height: 0;
-    overflow: hidden;
-}
-
 .searchInput {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-}
-
-.searchInput svg {
-    flex-shrink: 0;
-    color: var(--color-text-muted);
+    margin-top: 1em;
 }
 
 .textInput {
@@ -91,22 +72,6 @@
         border-color: var(--color-primary);
         box-shadow: 0 0 0 3px rgb(29 185 84 / 15%);
     }
-}
-
-.tagFilter {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0.5em;
-}
-
-.tagFilterAndClear {
-    min-width: 0;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    margin-block: 1em;
 }
 
 .clearFilters {

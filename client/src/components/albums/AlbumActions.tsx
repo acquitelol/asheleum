@@ -15,17 +15,21 @@ import TagPill from "../tags/TagPill";
 import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import AlbumKindFilter from "./AlbumKindFilter";
+import { NoExist } from "../NoExist";
+import TagIcon from "../icons/TagIcon";
 
 export default function AlbumActions() {
   const {
     setAlbums,
     sortDir,
+    searchQuery,
+    formatQuery,
     deleting,
     setDeleting,
     albumIdsToDelete,
     setAlbumIdsToDelete,
   } = useAlbums();
-  const { tags, loading: tagsLoading, tagFilter, setTagFilter } = useTags();
+  const { tags, tagFilter, setTagFilter } = useTags();
   const [searchParams, setSearchParams] = useSearchParams();
   const showFilter = searchParams.get("filter") === "true";
 
@@ -47,10 +51,6 @@ export default function AlbumActions() {
     return () => observer.disconnect();
   }, []);
 
-  const searchQuery = searchParams.get("search") ?? "";
-  const formatQuery = (searchParams.get("format") ?? "")
-    .split(",")
-    .filter(Boolean);
   const isFiltering =
     tagFilter.length || searchQuery !== "" || formatQuery.length;
 
@@ -65,7 +65,7 @@ export default function AlbumActions() {
             })
           }
           kind="neutral"
-          className={styles.button}
+          className={`${styles.button} ${searchParams.get("filter") === "true" ? styles.filtering : ""}`}
         >
           {createElement(isFiltering ? ConfirmIcon : FilterIcon, {
             size: isFiltering ? 18 : 16,
@@ -141,7 +141,7 @@ export default function AlbumActions() {
             <input
               className={styles.textInput}
               type="text"
-              value={searchParams.get("search")}
+              value={searchParams.get("search") ?? ""}
               onChange={(e) =>
                 setSearchParams((p) => {
                   p.set("search", e.target.value);
@@ -172,28 +172,34 @@ export default function AlbumActions() {
 
           <h3 style={{ marginBottom: "1em" }}>Tag filters:</h3>
           <div className={styles.tagFilter}>
-            {!tagsLoading && tags.length ? (
-              new Array(1)
-                .fill(0)
-                .map((_) =>
-                  tags.map((tag) => (
-                    <TagPill
-                      tag={tag}
-                      size={0.75}
-                      selectable
-                      onClick={(selected) =>
-                        setTagFilter((p) =>
-                          selected && !p.some((t) => t.id === tag.id)
-                            ? [...p, tag]
-                            : p.filter((t) => t.id !== tag.id),
-                        )
-                      }
-                    />
-                  )),
-                )
-                .reduce((prev, cur) => [...cur, ...prev])
+            {tags.length ? (
+              tags.map((tag) => (
+                <TagPill
+                  tag={tag}
+                  size={0.75}
+                  selectable
+                  selected={tagFilter.some((t) => t.id == tag.id)}
+                  quantity
+                  key={tag.id}
+                  onClick={(selected) =>
+                    setTagFilter((p) =>
+                      selected && !p.some((t) => t.id === tag.id)
+                        ? [...p, tag]
+                        : p.filter((t) => t.id !== tag.id),
+                    )
+                  }
+                />
+              ))
             ) : (
-              <p>No tags were found.</p>
+              <TagPill
+                tag={{
+                  id: "N/A",
+                  name: "You don't have any tags.",
+                  userId: "N/A",
+                  createdAt: "N/A",
+                }}
+                size={0.75}
+              />
             )}
             <TagPill
               tag={{

@@ -3,11 +3,13 @@ import Loading from "@/components/Loading";
 import Navigation from "@/components/navigation/Navigation";
 import { useAuth } from "@/context/AuthContext";
 import styles from "./App.module.css";
+import TagActions from "@/components/tags/TagActions";
+import TagTable from "@/components/tags/TagTable";
 
 export default function () {
-  const { user, loading: loadingUser } = useAuth();
+  const { user, loading } = useAuth();
 
-  return loadingUser ? (
+  return loading ? (
     <Loading />
   ) : (
     <div>
@@ -16,6 +18,8 @@ export default function () {
           <h1>Welcome back, {user.name.split(" ")?.[0]}!</h1>
         </div>
         <CondensedAlbums />
+        <TagActions home />
+        <TagTable />
       </main>
       <Navigation />
     </div>

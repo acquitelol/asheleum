@@ -1,14 +1,8 @@
 import type { Album } from "@/context/AlbumContext";
 import styles from "./AlbumCard.module.css";
-import TagPill from "../tags/TagPill";
-import { useTags } from "@/context/TagContext";
-import { useNavigate } from "react-router-dom";
 import TagPile from "../tags/TagPile";
 
 export default function AlbumCard({ album }: { album: Album }) {
-  const { setTagFilter } = useTags();
-  const navigate = useNavigate();
-
   return (
     <div className={styles.albumCard}>
       <img

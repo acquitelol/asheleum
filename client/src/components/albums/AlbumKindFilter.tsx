@@ -2,7 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import Button from "../Button";
 import styles from "./AlbumKindFilter.module.css";
 
-export const ALBUM_FORMATS = ["Album", "EP", "Single", "Playlist"];
+export const ALBUM_FORMATS = ["Album", "EP", "Single", "Playlist"] as const;
 
 export default function AlbumKindFilter() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -26,6 +26,7 @@ export default function AlbumKindFilter() {
               return p;
             })
           }
+          key={format}
           className={`${styles.entity} ${(searchParams.get("format") ?? "").includes(format) ? styles.selected : ""}`}
         >
           {format}
