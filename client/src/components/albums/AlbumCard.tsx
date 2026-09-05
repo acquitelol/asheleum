@@ -1,8 +1,14 @@
 import type { Album } from "@/context/AlbumContext";
 import styles from "./AlbumCard.module.css";
 import TagPill from "../tags/TagPill";
+import { useTags } from "@/context/TagContext";
+import { useNavigate } from "react-router-dom";
+import TagPile from "../tags/TagPile";
 
 export default function AlbumCard({ album }: { album: Album }) {
+  const { setTagFilter } = useTags();
+  const navigate = useNavigate();
+
   return (
     <div className={styles.albumCard}>
       <img
@@ -24,9 +30,7 @@ export default function AlbumCard({ album }: { album: Album }) {
         </div>
 
         <div className={styles.albumCard__tags}>
-          {album.tags.slice(0, 3).map((tag) => (
-            <TagPill name={tag.name} size={0.5} key={tag.id} />
-          ))}
+          <TagPile tags={album.tags} size={0.75} />
         </div>
       </div>
     </div>

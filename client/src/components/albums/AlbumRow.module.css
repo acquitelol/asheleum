@@ -85,17 +85,18 @@
     }
 }
 
-.albumRow__tags {
-    display: flex;
-    gap: 0.4rem;
-
-    overflow: hidden;
-}
-
-.albumRow__delete {
+.albumRow__trailing {
     margin-left: auto;
     flex-shrink: 0;
 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+}
+
+.albumRow__delete {
     align-self: center;
     width: 2.5em;
     height: 2.5em;

@@ -1,14 +1,37 @@
 .tagPill {
     border-radius: var(--radius-pill);
     background-color: var(--color-surface-above);
-    transition: background-color 0.25s ease-out;
+    transition:
+        background-color 0.25s ease-out,
+        transform 0.3s ease,
+        border 0.3s ease-in-out;
 
-    margin-top: 0.5em;
     padding-block: 0.5em;
     padding-inline: 0.75em;
     cursor: pointer;
 
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+
+    border: 1px solid transparent;
+
     &:hover {
+        background-color: var(--color-surface-above-hover);
+        transform: scale(1.05);
+        border: 1px solid var(--color-pill);
+    }
+
+    &:active {
         background-color: var(--color-primary);
+        transform: scale(1.05);
+    }
+
+    &:active:hover {
+        background-color: var(--color-primary-hover);
+        transform: scale(1.1);
+        border: 1px solid var(--color-pill-hover);
     }
 }

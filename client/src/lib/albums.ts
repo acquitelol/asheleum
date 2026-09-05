@@ -30,9 +30,7 @@ export async function addAlbum(
   const album = await res.json().catch(console.error);
 
   setAlbums((albums) =>
-    albums.some((a) => a.id === album.id)
-      ? albums
-      : [...albums, { ...album, tags: [] }],
+    albums.some((a) => a.id === album.id) ? albums : [...albums, album],
   );
 
   setAlbumUrl("");

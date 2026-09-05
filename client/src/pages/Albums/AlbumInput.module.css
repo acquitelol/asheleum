@@ -6,6 +6,7 @@
 
 .textInput {
     flex: 1;
+    min-width: 0;
 
     padding: 0.65rem 0.85rem;
 
@@ -20,11 +21,15 @@
     outline: none;
 
     transition:
-        border-color 0.2s ease,
+        border 0.3s ease-in-out,
         box-shadow 0.2s ease;
 
     &::placeholder {
         color: var(--color-text-muted);
+    }
+
+    &:hover {
+        border-color: var(--color-pill);
     }
 
     &:focus {

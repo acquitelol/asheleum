@@ -11,8 +11,8 @@ export type Tag = {
 type TagContextType = {
   tags: Tag[] | null;
   setTags: React.Dispatch<React.SetStateAction<Tag[]>>;
-  tagFilter: string[];
-  setTagFilter: React.Dispatch<React.SetStateAction<string[]>>;
+  tagFilter: Tag[];
+  setTagFilter: React.Dispatch<React.SetStateAction<Tag[]>>;
   loading: boolean;
 };
 
@@ -21,7 +21,7 @@ const TagContext = createContext<TagContextType | null>(null);
 export function TagProvider({ children }: { children: React.ReactNode }) {
   const [tags, setTags] = useState<Tag[] | null>(null);
   const [loading, setLoading] = useState(true);
-  const [tagFilter, setTagFilter] = useState<string[]>([]);
+  const [tagFilter, setTagFilter] = useState<Tag[]>([]);
 
   useEffect(() => {
     getTags()

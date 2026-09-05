@@ -10,7 +10,7 @@ export default function AlbumInput() {
 
   return (
     <>
-      <h3 style={{ padding: 0, margin: 0 }}>Add a new album:</h3>
+      <h3>Add a new album:</h3>
       <form
         className={styles.inputForm}
         onSubmit={(e) => addAlbum(e, albumUrl, setAlbumUrl, setAlbums)}
@@ -22,7 +22,9 @@ export default function AlbumInput() {
           onChange={(e) => setAlbumUrl(e.target.value)}
           placeholder="Album URL"
         />
-        <Button type="submit">Add</Button>
+        <Button type="submit" border>
+          Add
+        </Button>
       </form>
     </>
   );

@@ -1,5 +1,5 @@
 .condensedAlbums {
-    background-color: var(--color-background);
+    background-color: color-mix(in srgb, var(--color-background), white 1%);
     padding: 1em;
     padding-inline: 1em;
     border-radius: var(--radius-lg);

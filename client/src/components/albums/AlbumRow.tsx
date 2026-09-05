@@ -4,6 +4,7 @@ import Button from "../Button";
 import TrashIcon from "@/components/icons/TrashIcon";
 import { deleteAlbum } from "@/lib/albums";
 import ConfirmIcon from "../icons/ConfirmIcon";
+import TagPile from "../tags/TagPile";
 
 export default function AlbumRow({ album }: { album: Album }) {
   const { deleting, albumIdsToDelete, setAlbumIdsToDelete } = useAlbums();
@@ -34,22 +35,25 @@ export default function AlbumRow({ album }: { album: Album }) {
         </div>*/}
       </div>
 
-      {deleting && (
-        <Button
-          className={styles.albumRow__delete}
-          onClick={() =>
-            setAlbumIdsToDelete((albums) =>
-              albums.includes(album.id)
-                ? albums.filter((albumId) => albumId !== album.id)
-                : [...albums, album.id],
-            )
-          }
-          kind={"neutral"}
-          border
-        >
-          {albumIdsToDelete.includes(album.id) && <ConfirmIcon />}
-        </Button>
-      )}
+      <div className={styles.albumRow__trailing}>
+        <TagPile tags={album.tags} />
+        {deleting && (
+          <Button
+            className={styles.albumRow__delete}
+            onClick={() =>
+              setAlbumIdsToDelete((albums) =>
+                albums.includes(album.id)
+                  ? albums.filter((albumId) => albumId !== album.id)
+                  : [...albums, album.id],
+              )
+            }
+            kind={"neutral"}
+            border
+          >
+            {albumIdsToDelete.includes(album.id) && <ConfirmIcon />}
+          </Button>
+        )}
+      </div>
     </div>
   );
 }

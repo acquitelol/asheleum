@@ -4,6 +4,7 @@ import Loading from "../Loading";
 import AlbumCard from "./AlbumCard";
 import Button from "../Button";
 import { useNavigate } from "react-router-dom";
+import { NoAlbumsExist } from "../NoAlbums";
 
 export default function () {
   const { albums, loading } = useAlbums();
@@ -13,18 +14,19 @@ export default function () {
     <Loading />
   ) : (
     <div className={styles.condensedAlbums}>
-      <h2 style={{ padding: 0, marginTop: 0 }}>Your albums at a glance:</h2>
+      <h2 style={{ marginBottom: "0.5em" }}>Your albums at a glance:</h2>
       <div className={styles.albumContainer}>
         {albums.length ? (
           albums
             .slice(0, 10)
             .map((album) => <AlbumCard album={album} key={album.id} />)
         ) : (
-          <p>You don't have any albums yet. Go and get some!</p>
+          <NoAlbumsExist />
         )}
         {albums.length ? (
           <Button
             onClick={() => navigate("/albums")}
+            style={{ minWidth: "initial" }}
             // style={{ marginTop: "1em" }}
           >
             View all
