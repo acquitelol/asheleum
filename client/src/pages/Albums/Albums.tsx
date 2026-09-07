@@ -37,6 +37,8 @@ export default function () {
         style={{
           opacity: show ? 1 : 0,
           pointerEvents: show ? "auto" : "none",
+          backdropFilter: "blur(4px)",
+          WebkitBackdropFilter: "blur(4px)",
         }}
       >
         <div className={styles.modal}>

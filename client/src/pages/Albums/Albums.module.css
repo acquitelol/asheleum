@@ -24,8 +24,6 @@
     justify-content: center;
 
     background: rgb(0 0 0 / 60%);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
     /*overflow: auto;*/
     padding: 2em;
     transition:
