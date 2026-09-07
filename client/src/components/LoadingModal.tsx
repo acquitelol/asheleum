@@ -1,10 +1,14 @@
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import AlbumIcon from "./icons/AlbumIcon";
 import styles from "./LoadingModal.module.css";
 import { useAuth } from "@/context/AuthContext";
 
 export default function () {
   const { user, loading } = useAuth();
+
+  if (!loading && !user) {
+    return <Navigate to="/login" replace />;
+  }
 
   return (
     <>
