@@ -26,7 +26,7 @@
     background: rgb(0 0 0 / 60%);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
-    overflow: auto;
+    /*overflow: auto;*/
     padding: 2em;
     transition:
         opacity 0.3s ease-in-out,
@@ -36,6 +36,7 @@
 .modal {
     max-height: calc(100vh - 4em);
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .viewModal {
@@ -55,7 +56,7 @@
 }
 
 .albumRow__cover {
-    width: clamp(6em, 20vw, 9em);
+    width: clamp(4em, 12vw, 9em);
     height: auto;
     aspect-ratio: 1;
     flex: 0 1 9em;
@@ -77,13 +78,16 @@
 }
 
 .albumRow__artist {
-    font-size: clamp(0.8em, 4vw, 1.3em);
+    font-size: clamp(0.6em, 4vw, 1.3em);
+    /*font-size: clamp(0.8em, 2vw, 1.3em);*/
     color: var(--color-text-muted);
 }
 
 .albumRow__title {
-    font-size: clamp(2em, 9vw, 3em);
+    /*font-size: 3em;*/
+    font-size: clamp(1em, 5vw, 3em);
     font-weight: 600;
+    max-width: 60em;
 
     overflow: hidden;
     text-overflow: ellipsis;
