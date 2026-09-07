@@ -26,15 +26,14 @@ export default function TagPill({
   onClick?: (_: boolean) => any;
   selected?: boolean;
 }) {
-  const { albums, editing } = useAlbums();
-  const active = !editing && (selectable || clickable);
+  const { albums } = useAlbums();
+  const active = selectable || clickable;
 
   return (
     <span
       style={{
         fontSize: `${size}em`,
         pointerEvents: active ? "auto" : "none",
-        userSelect: active ? "none" : "auto",
         backgroundColor:
           showState && selected
             ? "var(--color-primary)"

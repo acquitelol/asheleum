@@ -16,6 +16,7 @@
     align-items: center;
     gap: 0.5em;
 
+    user-select: none;
     border: 1px solid transparent;
 
     &:hover {
