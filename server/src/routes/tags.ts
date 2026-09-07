@@ -1,8 +1,8 @@
 import type { Express } from "express";
-import { auth } from "../auth.ts";
+import { auth } from "../auth.js";
 import { fromNodeHeaders } from "better-auth/node";
-import { db } from "../db/index.ts";
-import { tag } from "../db/schema.ts";
+import { db } from "../db/index.js";
+import { tag } from "../db/schema.js";
 import { and, eq, asc } from "drizzle-orm";
 
 export async function registerTags(app: Express) {

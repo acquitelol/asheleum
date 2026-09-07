@@ -1,5 +1,5 @@
 import { pgTable, text, timestamp, unique } from "drizzle-orm/pg-core";
-import { user } from "../schema.ts";
+import { user } from "../schema.js";
 
 export const tag = pgTable(
   "tag",

@@ -1,10 +1,10 @@
 import { type Express } from "express";
-import { auth } from "../auth.ts";
+import { auth } from "../auth.js";
 import { fromNodeHeaders } from "better-auth/node";
-import { db } from "../db/index.ts";
-import { album, albumTag, tag, userAlbum } from "../db/schema.ts";
+import { db } from "../db/index.js";
+import { album, albumTag, tag, userAlbum } from "../db/schema.js";
 import { and, eq, asc } from "drizzle-orm";
-import { capitalize, decodeHtml } from "../utils.ts";
+import { capitalize, decodeHtml } from "../utils.js";
 
 async function extractMetadata(url: string) {
   const res = await fetch(url);

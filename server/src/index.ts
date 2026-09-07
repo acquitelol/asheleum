@@ -4,8 +4,8 @@ import cors from "cors";
 import { toNodeHandler } from "better-auth/node";
 import { auth } from "./auth.js";
 import { fromNodeHeaders } from "better-auth/node";
-import { registerTags } from "./routes/tags.ts";
-import { registerAlbums } from "./routes/albums.ts";
+import { registerTags } from "./routes/tags.js";
+import { registerAlbums } from "./routes/albums.js";
 
 const app = express();
 
