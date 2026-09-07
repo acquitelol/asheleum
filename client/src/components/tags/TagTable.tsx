@@ -18,7 +18,7 @@ export default function TagTable({
   quantity = true,
   onClick,
   customTagFilter = () => true,
-  CustomMissingComponent = null,
+  CustomMissingComponent = () => null,
 }: {
   style?: CSSProperties;
   showState?: boolean;
