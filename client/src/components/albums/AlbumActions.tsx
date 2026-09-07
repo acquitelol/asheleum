@@ -19,6 +19,7 @@ import TagAddIcon from "../icons/TagAddIcon";
 
 export default function AlbumActions() {
   const {
+    albums,
     setAlbums,
     sortDir,
     searchQuery,
@@ -134,7 +135,7 @@ export default function AlbumActions() {
           <Button
             onClick={() => {
               albumIdsToDelete.map((albumId) =>
-                deleteAlbum(albumId, setAlbums),
+                deleteAlbum(albumId, albums, setAlbums),
               );
 
               setAlbumIdsToDelete([]);

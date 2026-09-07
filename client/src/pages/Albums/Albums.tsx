@@ -54,8 +54,8 @@ export default function () {
             quantity={false}
             onClick={(tag) => {
               album?.tags?.some((t) => t.id === tag.id)
-                ? deleteAlbumTag(tag.id, album.id, setAlbums)
-                : setAlbumTag(tag.id, album.id, tags, setAlbums);
+                ? deleteAlbumTag(tag.id, album.id, albums, setAlbums)
+                : setAlbumTag(tag.id, album.id, albums, tags, setAlbums);
             }}
           />
           <TagActions style={{ marginBottom: "4em" }} popout={false} modal />

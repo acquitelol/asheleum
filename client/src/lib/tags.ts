@@ -1,5 +1,5 @@
 import type { Tag } from "@/context/TagContext";
-import { API_URL } from "./constants";
+import { API_URL } from "./constants.ts";
 import type { Dispatch, SetStateAction } from "react";
 import type { Album } from "@/context/AlbumContext";
 import { insertAlphabetically } from "./utils";
@@ -13,46 +13,51 @@ export async function getTags() {
 export async function addTag(
   e: React.FormEvent,
   name: string,
+  tags: Tag[],
   setName: (_: string) => void,
   setTags: Dispatch<SetStateAction<Tag[]>>,
 ) {
   e.preventDefault();
+  const prevTags = tags;
+  const dummyTag = {
+    id: `optimistic-${crypto.randomUUID()}`,
+    name,
+    userId: "N/A",
+    createdAt: "N/A",
+  } satisfies Tag;
 
-  const res = await fetch(`${API_URL}/api/tag`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-    body: JSON.stringify({ name }),
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to add new album");
-  }
-
-  const tag = await res.json().catch(console.error);
-
-  setTags((tags) =>
-    tags.some((t) => t.id === tag.id) ? tags : insertAlphabetically(tags, tag),
-  );
-
+  setTags((tags) => insertAlphabetically(tags, dummyTag));
   setName("");
+
+  try {
+    const res = await fetch(`${API_URL}/api/tag`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({ name }),
+    });
+
+    if (!res.ok) throw new Error("Failed to add new tag");
+
+    const tag: Tag = await res.json();
+    setTags((tags) => tags.map((t) => (t.id === dummyTag.id ? tag : t)));
+  } catch (error) {
+    setTags(prevTags);
+    throw error;
+  }
 }
 
 export async function deleteTag(
   tagId: string,
+  tags: Tag[],
+  albums: Album[],
   setTags: Dispatch<SetStateAction<Tag[]>>,
   setAlbums: Dispatch<SetStateAction<Album[]>>,
 ) {
-  const res = await fetch(`${API_URL}/api/tag/${tagId}`, {
-    method: "DELETE",
-    credentials: "include",
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to delete tag");
-  }
+  const prevTags = tags;
+  const prevAlbums = albums;
 
   setTags((tags) => tags.filter((tag) => tag.id !== tagId));
   setAlbums((albums) =>
@@ -61,32 +66,32 @@ export async function deleteTag(
       tags: album.tags.filter((tag) => tag.id !== tagId),
     })),
   );
+
+  try {
+    const res = await fetch(`${API_URL}/api/tag/${tagId}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+
+    if (!res.ok) throw new Error("Failed to delete tag");
+  } catch (error) {
+    setTags(prevTags);
+    setAlbums(prevAlbums);
+    throw error;
+  }
 }
 
 export async function setAlbumTag(
   tagId: string,
   albumId: string,
+  albums: Album[],
   tags: Tag[],
   setAlbums: Dispatch<SetStateAction<Album[]>>,
 ) {
-  const res = await fetch(`${API_URL}/api/album_tag`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-    body: JSON.stringify({ tagId, albumId }),
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to add tag");
-  }
+  const prevAlbums = albums;
 
   const tag = tags.find((tag) => tag.id === tagId);
-
-  if (!tag) {
-    throw new Error("Tag not found");
-  }
+  if (!tag) throw new Error("Tag not found");
 
   setAlbums((albums) =>
     albums.map((album) => {
@@ -102,28 +107,31 @@ export async function setAlbumTag(
       };
     }),
   );
+
+  try {
+    const res = await fetch(`${API_URL}/api/album_tag`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({ tagId, albumId }),
+    });
+
+    if (!res.ok) throw new Error("Failed to add tag");
+  } catch (error) {
+    setAlbums(prevAlbums);
+    throw error;
+  }
 }
 
 export async function deleteAlbumTag(
   tagId: string,
   albumId: string,
+  albums: Album[],
   setAlbums: Dispatch<SetStateAction<Album[]>>,
 ) {
-  const res = await fetch(`${API_URL}/api/album_tag`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-    body: JSON.stringify({
-      albumId,
-      tagId,
-    }),
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to delete album tag");
-  }
+  const prevAlbums = albums;
 
   setAlbums((albums) =>
     albums.map((album) =>
@@ -135,4 +143,23 @@ export async function deleteAlbumTag(
         : album,
     ),
   );
+
+  try {
+    const res = await fetch(`${API_URL}/api/album_tag`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        albumId,
+        tagId,
+      }),
+    });
+
+    if (!res.ok) throw new Error("Failed to delete album tag");
+  } catch (error) {
+    setAlbums(prevAlbums);
+    throw error;
+  }
 }

@@ -33,6 +33,7 @@ export default function TagActions({
   style?: CSSProperties;
 }) {
   const {
+    tags,
     setTags,
     sortDir,
     searchQuery,
@@ -41,7 +42,7 @@ export default function TagActions({
     tagIdsToDelete,
     setTagIdsToDelete,
   } = useTags();
-  const { setAlbums } = useAlbums();
+  const { albums, setAlbums } = useAlbums();
   const { setShow } = useModal();
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -143,7 +144,7 @@ export default function TagActions({
           <Button
             onClick={() => {
               tagIdsToDelete.map((tagId) =>
-                deleteTag(tagId, setTags, setAlbums),
+                deleteTag(tagId, tags, albums, setTags, setAlbums),
               );
 
               setTagIdsToDelete([]);

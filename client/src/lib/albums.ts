@@ -12,10 +12,13 @@ export async function getAlbums() {
 export async function addAlbum(
   e: React.FormEvent,
   albumUrl: string,
-  setAlbumUrl: (_: string) => void,
+  setLoading: Dispatch<SetStateAction<boolean>>,
+  setAlbumUrl: Dispatch<SetStateAction<string>>,
   setAlbums: Dispatch<SetStateAction<Album[]>>,
 ) {
   e.preventDefault();
+  setAlbumUrl("");
+  setLoading(true);
 
   const res = await fetch(`${API_URL}/api/album`, {
     method: "POST",
@@ -38,21 +41,26 @@ export async function addAlbum(
       : insertAlphabetically(albums, album),
   );
 
-  setAlbumUrl("");
+  setLoading(false);
 }
 
 export async function deleteAlbum(
   albumId: string,
+  albums: Album[],
   setAlbums: Dispatch<SetStateAction<Album[]>>,
 ) {
-  const res = await fetch(`${API_URL}/api/album/${albumId}`, {
-    method: "DELETE",
-    credentials: "include",
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to delete album");
-  }
-
+  const prevAlbums = albums;
   setAlbums((albums) => albums.filter((album) => album.id !== albumId));
+
+  try {
+    const res = await fetch(`${API_URL}/api/album/${albumId}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+
+    if (!res.ok) throw new Error("Failed to delete album");
+  } catch (error) {
+    setAlbums(prevAlbums);
+    throw error;
+  }
 }

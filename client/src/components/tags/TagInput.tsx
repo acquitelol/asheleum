@@ -7,14 +7,14 @@ import TagAddIcon from "../icons/TagAddIcon";
 
 export default function AlbumInput() {
   const [tagName, setTagName] = useState("");
-  const { setTags } = useTags();
+  const { tags, setTags } = useTags();
 
   return (
     <>
       <h3>Add a new tag:</h3>
       <form
         className={styles.inputForm}
-        onSubmit={(e) => addTag(e, tagName, setTagName, setTags)}
+        onSubmit={(e) => addTag(e, tagName, tags, setTagName, setTags)}
       >
         <input
           className={styles.textInput}
