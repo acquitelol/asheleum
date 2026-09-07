@@ -1,5 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { API_URL } from "@/lib/constants";
+import { createContext, useContext, useState } from "react";
 
 type ModalContextType = {
   show: boolean;

@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { API_URL } from "@/lib/constants";
+import { API_URL } from "@/lib/constants.ts";
 
 type User = {
   id: string;

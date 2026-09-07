@@ -1,13 +1,14 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Loading from "./Loading";
+import { API_URL } from "@/lib/constants.ts";
 
 export function ProtectedRoute() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/me", {
+    fetch(`${API_URL}/api/me`, {
       credentials: "include",
     })
       .then((res) => {

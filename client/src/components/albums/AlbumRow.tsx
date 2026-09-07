@@ -4,8 +4,6 @@ import Button from "../Button";
 import ConfirmIcon from "../icons/ConfirmIcon";
 import TagPile from "../tags/TagPile";
 import { useTags } from "@/context/TagContext";
-import SettingsIcon from "../icons/SettingsIcon";
-import TagAddIcon from "../icons/TagAddIcon";
 import { useModal } from "@/context/ModalContext";
 
 export default function AlbumRow({ album }: { album: Album }) {

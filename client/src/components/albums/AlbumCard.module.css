@@ -90,4 +90,7 @@
 .albumCard__tags {
     display: flex;
     gap: 0.4rem;
+    overflow: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }

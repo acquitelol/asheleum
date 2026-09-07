@@ -47,7 +47,7 @@ export default function AlbumActions() {
       setFilterHeight(filterRef.current!.scrollHeight);
     });
 
-    observer.observe(filterRef.current);
+    observer.observe(filterRef.current!);
 
     return () => observer.disconnect();
   }, []);

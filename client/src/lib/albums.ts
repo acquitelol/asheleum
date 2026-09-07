@@ -1,4 +1,6 @@
-import { API_URL } from "./constants";
+import type { Album } from "@/context/AlbumContext";
+import type { Dispatch, SetStateAction } from "react";
+import { API_URL } from "./constants.ts";
 import { insertAlphabetically } from "./utils";
 
 export async function getAlbums() {
@@ -10,12 +12,12 @@ export async function getAlbums() {
 export async function addAlbum(
   e: React.FormEvent,
   albumUrl: string,
-  setAlbumUrl: (string) => void,
-  setAlbums: (_: (...any) => any[]) => void,
+  setAlbumUrl: (_: string) => void,
+  setAlbums: Dispatch<SetStateAction<Album[]>>,
 ) {
   e.preventDefault();
 
-  const res = await fetch("http://localhost:3000/api/album", {
+  const res = await fetch(`${API_URL}/api/album`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -41,7 +43,7 @@ export async function addAlbum(
 
 export async function deleteAlbum(
   albumId: string,
-  setAlbums: (_: (...any) => any[]) => void,
+  setAlbums: Dispatch<SetStateAction<Album[]>>,
 ) {
   const res = await fetch(`${API_URL}/api/album/${albumId}`, {
     method: "DELETE",

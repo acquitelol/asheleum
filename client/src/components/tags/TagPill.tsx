@@ -2,7 +2,7 @@ import { createElement } from "react";
 import styles from "./TagPill.module.css";
 import ConfirmIcon from "../icons/ConfirmIcon";
 import CancelIcon from "../icons/CancelIcon";
-import { useTags, type Tag } from "@/context/TagContext";
+import { type Tag } from "@/context/TagContext";
 import { useAlbums } from "@/context/AlbumContext";
 
 export default function TagPill({
@@ -23,7 +23,7 @@ export default function TagPill({
   selectable?: boolean;
   clickable?: boolean;
   quantity?: boolean;
-  onClick?: (boolean) => any;
+  onClick?: (_: boolean) => any;
   selected?: boolean;
 }) {
   const { albums } = useAlbums();

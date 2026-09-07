@@ -13,12 +13,12 @@ export async function getTags() {
 export async function addTag(
   e: React.FormEvent,
   name: string,
-  setName: (string) => void,
-  setTags: (_: (...any) => any[]) => void,
+  setName: (_: string) => void,
+  setTags: Dispatch<SetStateAction<Tag[]>>,
 ) {
   e.preventDefault();
 
-  const res = await fetch("http://localhost:3000/api/tag", {
+  const res = await fetch(`${API_URL}/api/tag`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -42,7 +42,7 @@ export async function addTag(
 
 export async function deleteTag(
   tagId: string,
-  setTags: (_: (...any) => any[]) => void,
+  setTags: Dispatch<SetStateAction<Tag[]>>,
   setAlbums: Dispatch<SetStateAction<Album[]>>,
 ) {
   const res = await fetch(`${API_URL}/api/tag/${tagId}`, {

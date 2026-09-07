@@ -10,7 +10,7 @@ export type Tag = {
 };
 
 type TagContextType = {
-  tags: Tag[] | null;
+  tags: Tag[];
   setTags: React.Dispatch<React.SetStateAction<Tag[]>>;
   tagFilter: Tag[];
   setTagFilter: React.Dispatch<React.SetStateAction<Tag[]>>;
@@ -20,7 +20,7 @@ type TagContextType = {
   setDeleting: React.Dispatch<React.SetStateAction<boolean>>;
   tagIdsToDelete: string[];
   setTagIdsToDelete: React.Dispatch<React.SetStateAction<string[]>>;
-  processedTags: Tag[] | null;
+  processedTags: Tag[];
   loading: boolean;
 };
 

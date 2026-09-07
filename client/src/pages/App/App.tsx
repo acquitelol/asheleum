@@ -15,7 +15,7 @@ export default function () {
     <div>
       <main>
         <div className={styles.titleContainer}>
-          <h1>Welcome back, {user.name.split(" ")?.[0]}!</h1>
+          <h1>Welcome back, {user?.name?.split(" ")?.[0]}!</h1>
         </div>
         <CondensedAlbums />
         <TagActions home />

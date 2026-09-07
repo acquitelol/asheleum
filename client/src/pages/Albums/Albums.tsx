@@ -15,7 +15,7 @@ export default function () {
   const { albums, setAlbums } = useAlbums();
   const { tags } = useTags();
 
-  const album = albums.find((album) => album.id === albumId);
+  const album = albums.find((album) => album.id === albumId)!;
 
   return (
     <div>
@@ -48,7 +48,9 @@ export default function () {
             showIcon
             selectable={() => show}
             clickable={() => false}
-            selected={(tag) => album?.tags?.some((t) => t.id === tag.id)}
+            selected={(tag) =>
+              album?.tags?.some((t) => t.id === tag.id) ?? false
+            }
             quantity={false}
             onClick={(tag) => {
               album?.tags?.some((t) => t.id === tag.id)

@@ -3,7 +3,6 @@ import styles from "./AlbumInput.module.css";
 import { useState } from "react";
 import Button from "@/components/Button";
 import { addAlbum } from "@/lib/albums";
-import AlbumIcon from "../icons/AlbumIcon";
 import AlbumAddIcon from "../icons/AlbumAddIcon";
 
 export default function AlbumInput() {
