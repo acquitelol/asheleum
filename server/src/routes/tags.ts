@@ -3,7 +3,7 @@ import { auth } from "../auth.js";
 import { fromNodeHeaders } from "better-auth/node";
 import { db } from "../db/index.js";
 import { tag } from "../db/schema.js";
-import { and, eq, asc } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 
 export async function registerTags(app: Express) {
   app.get("/api/tags", async (req, res) => {
@@ -19,7 +19,7 @@ export async function registerTags(app: Express) {
       .select()
       .from(tag)
       .where(eq(tag.userId, session.user.id))
-      .orderBy(asc(tag.name));
+      .orderBy(sql`${tag.name} COLLATE "en-x-icu"`);
 
     return res.json(tags);
   });

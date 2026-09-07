@@ -3,7 +3,7 @@ import { auth } from "../auth.js";
 import { fromNodeHeaders } from "better-auth/node";
 import { db } from "../db/index.js";
 import { album, albumTag, tag, userAlbum } from "../db/schema.js";
-import { and, eq, asc } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { capitalize, decodeHtml } from "../utils.js";
 
 async function extractMetadata(url: string) {
@@ -131,7 +131,7 @@ export async function registerAlbums(app: Express) {
       .from(userAlbum)
       .innerJoin(album, eq(userAlbum.albumId, album.id))
       .where(eq(userAlbum.userId, session.user.id))
-      .orderBy(asc(album.name));
+      .orderBy(sql`${album.name} COLLATE "en-x-icu"`);
 
     const tags = await db
       .select({
