@@ -20,10 +20,6 @@ export const auth = betterAuth({
     },
   },
 
-  account: {
-    storeStateStrategy: "database",
-  },
-
   advanced: {
     useSecureCookies: true,
     defaultCookieAttributes: {
