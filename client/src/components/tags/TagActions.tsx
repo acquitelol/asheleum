@@ -43,7 +43,7 @@ export default function TagActions({
     setTagIdsToDelete,
   } = useTags();
   const { albums, setAlbums } = useAlbums();
-  const { setShow } = useModal();
+  const { setData } = useModal();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const showFilter = searchParams.get("filterTags") === "true";
@@ -101,7 +101,7 @@ export default function TagActions({
 
         {modal && (
           <Button
-            onClick={() => setShow(false)}
+            onClick={() => setData((p) => ({ ...p, show: false }))}
             kind="negative"
             className={`${styles.button} ${styles.squareButton}`}
           >

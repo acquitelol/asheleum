@@ -1,20 +1,17 @@
 import { createContext, useContext, useState } from "react";
 
 type ModalContextType = {
-  show: boolean;
-  setShow: React.Dispatch<React.SetStateAction<boolean>>;
-  data: any;
-  setData: React.Dispatch<React.SetStateAction<any>>;
+  data: Record<string, any> & { show: boolean };
+  setData: React.Dispatch<React.SetStateAction<ModalContextType["data"]>>;
 };
 
 const ModalContext = createContext<ModalContextType | null>(null);
 
 export function ModalProvider({ children }: { children: React.ReactNode }) {
-  const [show, setShow] = useState(false);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<ModalContextType["data"]>({ show: false });
 
   return (
-    <ModalContext.Provider value={{ show, setShow, data, setData }}>
+    <ModalContext.Provider value={{ data, setData }}>
       {children}
     </ModalContext.Provider>
   );
@@ -24,7 +21,7 @@ export function useModal() {
   const context = useContext(ModalContext);
 
   if (!context) {
-    throw new Error("useAuth must be used inside AuthProvider");
+    throw new Error("useModal must be used inside ModalProvider");
   }
 
   return context;

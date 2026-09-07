@@ -2,7 +2,7 @@ import { useTags, type Tag } from "@/context/TagContext";
 import styles from "./TagTable.module.css";
 import Loading from "../Loading";
 // import AlbumRow from "./AlbumRow";
-import { createElement, type CSSProperties } from "react";
+import { createElement, useMemo, type CSSProperties } from "react";
 import { NoExist, NoFound } from "../NoExist";
 import TagIcon from "../icons/TagIcon";
 import TagPill from "./TagPill";
@@ -17,6 +17,8 @@ export default function TagTable({
   selected,
   quantity = true,
   onClick,
+  customTagFilter = () => true,
+  CustomMissingComponent = null,
 }: {
   style?: CSSProperties;
   showState?: boolean;
@@ -26,6 +28,8 @@ export default function TagTable({
   selected: (_: Tag) => boolean;
   quantity?: boolean;
   onClick?: (_: Tag) => any;
+  customTagFilter?: (_: Tag) => boolean;
+  CustomMissingComponent?: React.ComponentType<any>;
 }) {
   const {
     tags,
@@ -36,14 +40,18 @@ export default function TagTable({
     loading,
   } = useTags();
   const navigate = useNavigate();
+  const filteredTags = useMemo(
+    () => processedTags.filter(customTagFilter),
+    [customTagFilter, processedTags],
+  );
 
   return loading ? (
     <Loading />
   ) : (
     <div className={styles.tagTable} style={style}>
-      {processedTags && processedTags.length ? (
+      {filteredTags && filteredTags.length ? (
         <div className={styles.tagList}>
-          {processedTags.map((tag) => (
+          {filteredTags.map((tag) => (
             <TagPill
               tag={tag}
               size={1}
@@ -78,11 +86,14 @@ export default function TagTable({
           ))}
         </div>
       ) : (
-        createElement(tags.length ? NoFound : NoExist, {
-          style: { margin: "1em" },
-          text: "tags",
-          Icon: TagIcon,
-        })
+        createElement(
+          CustomMissingComponent ?? (tags.length ? NoFound : NoExist),
+          {
+            style: { margin: "1em" },
+            text: "tags",
+            Icon: TagIcon,
+          },
+        )
       )}
     </div>
   );

@@ -9,7 +9,7 @@ import { useModal } from "@/context/ModalContext";
 export default function AlbumRow({ album }: { album: Album }) {
   const { deleting, editing, albumIdsToDelete, setAlbumIdsToDelete } =
     useAlbums();
-  const { setShow, setData } = useModal();
+  const { setData } = useModal();
   const { tagFilter } = useTags();
 
   return (
@@ -18,17 +18,18 @@ export default function AlbumRow({ album }: { album: Album }) {
       style={{
         cursor: editing ? "pointer" : "auto ",
       }}
-      onClick={() => {
-        if (editing) {
-          setData(album.id);
-          setShow(true);
-        }
-      }}
+      onClick={() =>
+        editing && setData({ show: true, albumId: album.id, kind: "editing" })
+      }
     >
       <img
         className={styles.albumRow__cover}
         src={album.cover}
         alt={`${album.name} cover`}
+        onClick={() =>
+          !editing &&
+          setData({ show: true, albumId: album.id, kind: "viewing" })
+        }
       />
 
       <div className={styles.albumRow__content}>

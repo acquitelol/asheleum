@@ -37,3 +37,83 @@
     max-height: calc(100vh - 4em);
     overflow-y: auto;
 }
+
+.viewModal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /*align-items: center;*/
+}
+
+.albumRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: clamp(1em, 4vw, 2em);
+    margin-bottom: 1em;
+    /*justify-content: center;*/
+}
+
+.albumRow__cover {
+    width: clamp(6em, 20vw, 9em);
+    height: auto;
+    aspect-ratio: 1;
+    flex: 0 1 9em;
+    /*min-width: 0;*/
+
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+}
+
+.albumRow__content {
+    flex: 1 1 auto;
+    flex-shrink: 0;
+    min-width: max-content;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.35rem;
+}
+
+.albumRow__artist {
+    font-size: clamp(0.8em, 4vw, 1.3em);
+    color: var(--color-text-muted);
+}
+
+.albumRow__title {
+    font-size: clamp(2em, 9vw, 3em);
+    font-weight: 600;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    color: var(--color-text);
+    position: relative;
+    text-decoration: none;
+    transition: color 0.3s ease;
+
+    &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 1px;
+        background: currentColor;
+
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.2s;
+    }
+
+    &:hover {
+        color: var(--color-primary);
+    }
+
+    &:hover::before {
+        transform-origin: left;
+        transform: scaleX(1);
+    }
+}
