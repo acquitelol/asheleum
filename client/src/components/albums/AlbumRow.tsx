@@ -27,7 +27,6 @@ export default function AlbumRow({ album }: { album: Album }) {
         src={album.cover}
         alt={`${album.name} cover`}
         onClick={() =>
-          !editing &&
           setData({ show: true, albumId: album.id, kind: "viewing" })
         }
       />
