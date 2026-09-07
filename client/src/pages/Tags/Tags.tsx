@@ -3,10 +3,11 @@ import styles from "./Tags.module.css";
 import TagInput from "@/components/tags/TagInput";
 import TagActions from "@/components/tags/TagActions";
 import TagTable from "@/components/tags/TagTable";
-// import AlbumTable from "@/components/albums/AlbumTable";
-// import AlbumActions from "@/components/albums/AlbumActions";
+import { useTags } from "@/context/TagContext";
 
 export default function () {
+  const { deleting, tagIdsToDelete } = useTags();
+
   return (
     <div>
       <main>
@@ -17,7 +18,12 @@ export default function () {
           <TagInput />
         </div>
         <TagActions />
-        <TagTable />
+        <TagTable
+          showState
+          showIcon={deleting}
+          selectable={() => deleting}
+          selected={(tag) => deleting && tagIdsToDelete.includes(tag.id)}
+        />
       </main>
       <Navigation />
     </div>

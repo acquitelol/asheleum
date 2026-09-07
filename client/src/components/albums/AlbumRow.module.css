@@ -16,6 +16,10 @@
     }
 }
 
+.editing:hover {
+    background-color: var(--color-surface-hover);
+}
+
 .albumRow__cover {
     width: 3em;
     height: 3em;
@@ -104,4 +108,29 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.albumRow__button {
+    align-self: center;
+    width: 1.5em;
+    height: 2.5em;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    transition:
+        filter 0.3s ease,
+        transform 0.3s ease-in-out;
+    transform: rotate(0deg);
+
+    &:hover {
+        background-color: transparent;
+        filter: brightness(0.8);
+        transform: translateY(-1px);
+    }
+
+    &:active:hover {
+        transform: translateY(0);
+    }
 }

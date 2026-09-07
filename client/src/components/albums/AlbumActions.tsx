@@ -15,8 +15,7 @@ import TagPill from "../tags/TagPill";
 import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import AlbumKindFilter from "./AlbumKindFilter";
-import { NoExist } from "../NoExist";
-import TagIcon from "../icons/TagIcon";
+import TagAddIcon from "../icons/TagAddIcon";
 
 export default function AlbumActions() {
   const {
@@ -26,12 +25,14 @@ export default function AlbumActions() {
     formatQuery,
     deleting,
     setDeleting,
+    editing,
+    setEditing,
     albumIdsToDelete,
     setAlbumIdsToDelete,
   } = useAlbums();
   const { tags, tagFilter, setTagFilter } = useTags();
   const [searchParams, setSearchParams] = useSearchParams();
-  const showFilter = searchParams.get("filter") === "true";
+  const showFilter = searchParams.get("filterAlbums") === "true";
 
   const navigate = useNavigate();
   const filterRef = useRef<HTMLDivElement>(null);
@@ -60,7 +61,10 @@ export default function AlbumActions() {
         <Button
           onClick={() =>
             setSearchParams((p) => {
-              p.set("filter", p.get("filter") === "true" ? "false" : "true");
+              p.set(
+                "filterAlbums",
+                p.get("filterAlbums") === "true" ? "false" : "true",
+              );
               return p;
             })
           }
@@ -76,7 +80,10 @@ export default function AlbumActions() {
         <Button
           onClick={() =>
             setSearchParams((p) => {
-              p.set("sort", p.get("sort") === "asc" ? "desc" : "asc");
+              p.set(
+                "sortAlbums",
+                p.get("sortAlbums") === "asc" ? "desc" : "asc",
+              );
               return p;
             })
           }
@@ -85,6 +92,20 @@ export default function AlbumActions() {
         >
           {createElement(sortDir ? SortDescIcon : SortAscIcon, { size: 18 })}{" "}
           Sort
+        </Button>
+
+        <Button
+          onClick={() => setEditing((p) => !p)}
+          kind={editing ? "positive" : "neutral"}
+          className={`${styles.button} ${styles.squareButton}`}
+          style={{
+            opacity: deleting ? 0.5 : 1,
+            pointerEvents: deleting ? "none" : "auto",
+          }}
+        >
+          {createElement(editing ? CancelIcon : TagAddIcon, {
+            size: editing ? 20 : 18,
+          })}
         </Button>
 
         <Button
@@ -99,6 +120,10 @@ export default function AlbumActions() {
           }
           kind={deleting ? "neutral" : "negative"}
           className={`${styles.button} ${styles.squareButton}`}
+          style={{
+            opacity: editing ? 0.5 : 1,
+            pointerEvents: editing ? "none" : "auto",
+          }}
         >
           {createElement(deleting ? CancelIcon : TrashIcon, {
             size: deleting ? 20 : 18,
@@ -126,6 +151,7 @@ export default function AlbumActions() {
           </Button>
         )}
       </div>
+
       <div
         className={styles.filterSectionWrapper}
         style={{
@@ -141,10 +167,10 @@ export default function AlbumActions() {
             <input
               className={styles.textInput}
               type="text"
-              value={searchParams.get("search") ?? ""}
+              value={searchQuery}
               onChange={(e) =>
                 setSearchParams((p) => {
-                  p.set("search", e.target.value);
+                  p.set("searchAlbums", e.target.value);
                   return p;
                 })
               }
@@ -177,7 +203,8 @@ export default function AlbumActions() {
                 <TagPill
                   tag={tag}
                   size={0.75}
-                  selectable
+                  showState
+                  selectable={showFilter}
                   selected={tagFilter.some((t) => t.id == tag.id)}
                   quantity
                   key={tag.id}

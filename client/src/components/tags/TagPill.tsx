@@ -8,6 +8,8 @@ import { useAlbums } from "@/context/AlbumContext";
 export default function TagPill({
   tag,
   size,
+  showState = false,
+  showIcon = false,
   selectable = false,
   clickable = false,
   quantity = false,
@@ -16,6 +18,8 @@ export default function TagPill({
 }: {
   tag: Tag;
   size: number;
+  showState?: boolean;
+  showIcon?: boolean;
   selectable?: boolean;
   clickable?: boolean;
   quantity?: boolean;
@@ -31,7 +35,7 @@ export default function TagPill({
         pointerEvents: selectable || clickable ? "auto" : "none",
         userSelect: selectable || clickable ? "none" : "auto",
         backgroundColor:
-          (selectable || clickable) && selected
+          showState && selected
             ? "var(--color-primary)"
             : "var(--color-surface-above)",
       }}
@@ -40,16 +44,16 @@ export default function TagPill({
       }
       className={styles.tagPill}
     >
-      {selectable
-        ? createElement(selected ? ConfirmIcon : CancelIcon, {
+      {showIcon
+        ? createElement(showState && selected ? ConfirmIcon : CancelIcon, {
             size: 20 * size,
           })
         : ""}
-      {selectable ? " " : ""}
+      {showIcon ? " " : ""}
       {tag.name}
       {quantity && (
         <span
-          className={`${styles.quantity} ${selectable && selected ? styles.selectedQuantity : ""}`}
+          className={`${styles.quantity} ${showState && selected ? styles.selectedQuantity : ""}`}
         >
           {albums
             ? albums.filter((album) => album.tags.some((t) => t.id === tag.id))

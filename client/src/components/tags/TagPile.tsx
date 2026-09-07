@@ -8,31 +8,41 @@ const MAX_SHOWN = 2;
 export default function TagPile({
   tags,
   size = 1,
+  showState = false,
+  sortBySelected = false,
   selected = () => false,
 }: {
   tags: Tag[];
   size?: number;
+  showState?: boolean;
+  sortBySelected?: boolean;
   selected?: (t: Tag) => boolean;
 }) {
-  const { setTagFilter } = useTags();
+  const { tagFilter, setTagFilter } = useTags();
   const navigate = useNavigate();
+
+  const sortedTags =
+    sortBySelected && tagFilter.length
+      ? tags.toSorted((a, b) => Number(selected(b)) - Number(selected(a)))
+      : tags;
 
   return (
     <div className={styles.container}>
-      {tags.slice(0, MAX_SHOWN).map((tag) => (
+      {sortedTags.slice(0, MAX_SHOWN).map((tag) => (
         <TagPill
           tag={tag}
           size={size}
           key={tag.id}
           clickable
+          showState={showState}
           selected={selected(tag)}
           onClick={() => {
             setTagFilter([tag]);
-            navigate("/albums?filter=true");
+            navigate("/albums?filterAlbums=true");
           }}
         />
       ))}
-      {tags.length > MAX_SHOWN ? (
+      {sortedTags.length > MAX_SHOWN ? (
         <TagPill
           tag={{
             id: "N/A",
@@ -41,6 +51,8 @@ export default function TagPile({
             createdAt: "N/A",
           }}
           size={size}
+          showState={showState}
+          selected={sortedTags.slice(MAX_SHOWN).some(selected)}
         />
       ) : null}
     </div>

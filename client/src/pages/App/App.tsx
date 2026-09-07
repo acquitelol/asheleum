@@ -19,7 +19,7 @@ export default function () {
         </div>
         <CondensedAlbums />
         <TagActions home />
-        <TagTable />
+        <TagTable selectable={() => true} selected={() => false} />
       </main>
       <Navigation />
     </div>

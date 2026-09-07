@@ -35,8 +35,8 @@ export function TagProvider({ children }: { children: React.ReactNode }) {
   const [searchParams] = useSearchParams();
 
   // false == desc, true == asc
-  const sortDir = searchParams.get("sort") === "asc";
-  const searchQuery = searchParams.get("search") ?? "";
+  const sortDir = searchParams.get("sortTags") === "asc";
+  const searchQuery = searchParams.get("searchTags") ?? "";
 
   useEffect(() => {
     // setLoading(false);

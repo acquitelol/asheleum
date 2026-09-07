@@ -1,20 +1,37 @@
-import { useTags } from "@/context/TagContext";
+import { useTags, type Tag } from "@/context/TagContext";
 import styles from "./TagTable.module.css";
 import Loading from "../Loading";
 // import AlbumRow from "./AlbumRow";
-import { createElement } from "react";
+import { createElement, type CSSProperties } from "react";
 import { NoExist, NoFound } from "../NoExist";
 import TagIcon from "../icons/TagIcon";
 import TagPill from "./TagPill";
 import { useNavigate } from "react-router-dom";
 
-export default function TagTable() {
+export default function TagTable({
+  style = {},
+  showState = false,
+  showIcon = false,
+  selectable = () => false,
+  clickable = () => true,
+  selected,
+  quantity = true,
+  onClick,
+}: {
+  style?: CSSProperties;
+  showState?: boolean;
+  showIcon?: boolean;
+  selectable: (_: Tag) => boolean;
+  clickable?: (_: Tag) => boolean;
+  selected: (_: Tag) => boolean;
+  quantity?: boolean;
+  onClick?: (_: Tag) => any;
+}) {
   const {
     tags,
     processedTags,
     setTagFilter,
     deleting,
-    tagIdsToDelete,
     setTagIdsToDelete,
     loading,
   } = useTags();
@@ -23,19 +40,26 @@ export default function TagTable() {
   return loading ? (
     <Loading />
   ) : (
-    <div className={styles.tagTable}>
+    <div className={styles.tagTable} style={style}>
       {processedTags && processedTags.length ? (
         <div className={styles.tagList}>
           {processedTags.map((tag) => (
             <TagPill
               tag={tag}
               size={1}
-              selectable={deleting}
-              clickable
-              selected={deleting && tagIdsToDelete.includes(tag.id)}
-              quantity
+              showState={showState}
+              showIcon={showIcon}
+              selectable={selectable(tag)}
+              clickable={clickable(tag)}
+              selected={selected(tag)}
+              quantity={quantity}
               key={tag.id}
               onClick={() => {
+                if (onClick) {
+                  onClick(tag);
+                  return;
+                }
+
                 if (deleting) {
                   setTagIdsToDelete((tags) =>
                     tags.includes(tag.id)
@@ -46,8 +70,9 @@ export default function TagTable() {
                   return;
                 }
 
+                if (!clickable(tag)) return;
                 setTagFilter([tag]);
-                navigate("/albums?filter=true");
+                navigate("/albums?filterAlbums=true");
               }}
             />
           ))}

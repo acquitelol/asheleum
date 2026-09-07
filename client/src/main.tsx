@@ -13,26 +13,29 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 import { AlbumProvider } from "./context/AlbumContext";
 import { TagProvider } from "./context/TagContext";
+import { ModalProvider } from "./context/ModalContext";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <TagProvider>
-          <AlbumProvider>
-            <Routes>
-              <Route path="/login" element={<Login />} />
+        <ModalProvider>
+          <TagProvider>
+            <AlbumProvider>
+              <Routes>
+                <Route path="/login" element={<Login />} />
 
-              <Route element={<ProtectedRoute />}>
-                <Route path="/" element={<App />} />
-                <Route path="/albums/:albumId" element={<Album />} />
-                <Route path="/albums" element={<Albums />} />
-                <Route path="/tags" element={<Tags />} />
-                <Route path="/account" element={<Account />} />
-              </Route>
-            </Routes>
-          </AlbumProvider>
-        </TagProvider>
+                <Route element={<ProtectedRoute />}>
+                  <Route path="/" element={<App />} />
+                  <Route path="/albums/:albumId" element={<Album />} />
+                  <Route path="/albums" element={<Albums />} />
+                  <Route path="/tags" element={<Tags />} />
+                  <Route path="/account" element={<Account />} />
+                </Route>
+              </Routes>
+            </AlbumProvider>
+          </TagProvider>
+        </ModalProvider>
       </AuthProvider>
     </BrowserRouter>
   </StrictMode>,

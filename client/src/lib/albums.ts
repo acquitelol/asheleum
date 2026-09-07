@@ -1,4 +1,5 @@
 import { API_URL } from "./constants";
+import { insertAlphabetically } from "./utils";
 
 export async function getAlbums() {
   return fetch(`${API_URL}/api/albums`, {
@@ -30,7 +31,9 @@ export async function addAlbum(
   const album = await res.json().catch(console.error);
 
   setAlbums((albums) =>
-    albums.some((a) => a.id === album.id) ? albums : [...albums, album],
+    albums.some((a) => a.id === album.id)
+      ? albums
+      : insertAlphabetically(albums, album),
   );
 
   setAlbumUrl("");

@@ -22,7 +22,7 @@ export default function () {
   const navigate = useNavigate();
 
   return user ? (
-    <div className={styles.nav}>
+    <div className={styles.nav} style={{ zIndex: 2000 }}>
       <div className={styles.routes}>
         <div className={styles.routesContainer}>
           {ROUTES.map((route) => (

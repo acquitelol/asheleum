@@ -4,13 +4,29 @@ import Button from "../Button";
 import ConfirmIcon from "../icons/ConfirmIcon";
 import TagPile from "../tags/TagPile";
 import { useTags } from "@/context/TagContext";
+import SettingsIcon from "../icons/SettingsIcon";
+import TagAddIcon from "../icons/TagAddIcon";
+import { useModal } from "@/context/ModalContext";
 
 export default function AlbumRow({ album }: { album: Album }) {
-  const { deleting, albumIdsToDelete, setAlbumIdsToDelete } = useAlbums();
+  const { deleting, editing, albumIdsToDelete, setAlbumIdsToDelete } =
+    useAlbums();
+  const { setShow, setData } = useModal();
   const { tagFilter } = useTags();
 
   return (
-    <div className={styles.albumRow}>
+    <div
+      className={`${styles.albumRow} ${editing ? styles.editing : ""}`}
+      style={{
+        cursor: editing ? "pointer" : "auto ",
+      }}
+      onClick={() => {
+        if (editing) {
+          setData(album.id);
+          setShow(true);
+        }
+      }}
+    >
       <img
         className={styles.albumRow__cover}
         src={album.cover}
@@ -38,7 +54,9 @@ export default function AlbumRow({ album }: { album: Album }) {
       <div className={styles.albumRow__trailing}>
         <TagPile
           tags={album.tags}
+          sortBySelected
           selected={(tag) => tagFilter.some((t) => t.id == tag.id)}
+          showState
         />
         {deleting && (
           <Button

@@ -1,4 +1,10 @@
-import { createElement, useLayoutEffect, useRef, useState } from "react";
+import {
+  createElement,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
 import Button from "@/components/Button";
 import styles from "./TagActions.module.css";
 import SortAscIcon from "@/components/icons/SortAscIcon";
@@ -12,8 +18,20 @@ import { useSearchParams } from "react-router-dom";
 import { deleteTag } from "@/lib/tags";
 import { useNavigate } from "react-router-dom";
 import TagIcon from "../icons/TagIcon";
+import { useModal } from "@/context/ModalContext";
+import { useAlbums } from "@/context/AlbumContext";
 
-export default function TagActions({ home = false }: { home?: boolean }) {
+export default function TagActions({
+  home = false,
+  modal = false,
+  popout = true,
+  style = {},
+}: {
+  home?: boolean;
+  modal?: boolean;
+  popout?: boolean;
+  style?: CSSProperties;
+}) {
   const {
     setTags,
     sortDir,
@@ -23,8 +41,11 @@ export default function TagActions({ home = false }: { home?: boolean }) {
     tagIdsToDelete,
     setTagIdsToDelete,
   } = useTags();
+  const { setAlbums } = useAlbums();
+  const { setShow } = useModal();
+
   const [searchParams, setSearchParams] = useSearchParams();
-  const showFilter = searchParams.get("filter") === "true";
+  const showFilter = searchParams.get("filterTags") === "true";
 
   const filterRef = useRef<HTMLDivElement>(null);
   const [filterHeight, setFilterHeight] = useState(0);
@@ -45,12 +66,15 @@ export default function TagActions({ home = false }: { home?: boolean }) {
   }, []);
 
   return (
-    <div className={styles.actionsContainer}>
+    <div className={styles.actionsContainer} style={style}>
       <div className={styles.actions}>
         <Button
           onClick={() =>
             setSearchParams((p) => {
-              p.set("filter", p.get("filter") === "true" ? "false" : "true");
+              p.set(
+                "filterTags",
+                p.get("filterTags") === "true" ? "false" : "true",
+              );
               return p;
             })
           }
@@ -63,7 +87,7 @@ export default function TagActions({ home = false }: { home?: boolean }) {
         <Button
           onClick={() =>
             setSearchParams((p) => {
-              p.set("sort", p.get("sort") === "asc" ? "desc" : "asc");
+              p.set("sortTags", p.get("sortTags") === "asc" ? "desc" : "asc");
               return p;
             })
           }
@@ -73,6 +97,16 @@ export default function TagActions({ home = false }: { home?: boolean }) {
           {createElement(sortDir ? SortDescIcon : SortAscIcon, { size: 18 })}{" "}
           Sort
         </Button>
+
+        {modal && (
+          <Button
+            onClick={() => setShow(false)}
+            kind="negative"
+            className={`${styles.button} ${styles.squareButton}`}
+          >
+            <CancelIcon size={20} />
+          </Button>
+        )}
 
         {home && (
           <Button
@@ -85,7 +119,7 @@ export default function TagActions({ home = false }: { home?: boolean }) {
           </Button>
         )}
 
-        {!home && (
+        {!home && !modal && (
           <Button
             onClick={() =>
               setDeleting((p) => {
@@ -108,7 +142,9 @@ export default function TagActions({ home = false }: { home?: boolean }) {
         {!home && deleting && (
           <Button
             onClick={() => {
-              tagIdsToDelete.map((tagId) => deleteTag(tagId, setTags));
+              tagIdsToDelete.map((tagId) =>
+                deleteTag(tagId, setTags, setAlbums),
+              );
 
               setTagIdsToDelete([]);
               setDeleting(false);
@@ -127,9 +163,9 @@ export default function TagActions({ home = false }: { home?: boolean }) {
       <div
         className={styles.filterSectionWrapper}
         style={{
-          height: showFilter ? filterHeight : 0,
+          height: showFilter || !popout ? filterHeight : 0,
           opacity: showFilter ? 1 : 0,
-          marginBottom: showFilter ? "1em" : 0,
+          marginBottom: showFilter || !popout ? "1em" : 0,
           pointerEvents: showFilter ? "auto" : "none",
         }}
       >
@@ -140,7 +176,7 @@ export default function TagActions({ home = false }: { home?: boolean }) {
             value={searchQuery}
             onChange={(e) =>
               setSearchParams((p) => {
-                p.set("search", e.target.value);
+                p.set("searchTags", e.target.value);
                 return p;
               })
             }
