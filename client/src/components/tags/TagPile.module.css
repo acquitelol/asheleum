@@ -8,4 +8,6 @@
     align-items: center;
     justify-content: center;
     gap: 0.5em;
+    flex-wrap: nowrap;
+    width: max-content;
 }

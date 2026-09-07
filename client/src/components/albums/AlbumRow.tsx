@@ -50,12 +50,14 @@ export default function AlbumRow({ album }: { album: Album }) {
       </div>
 
       <div className={styles.albumRow__trailing}>
-        <TagPile
-          tags={album.tags}
-          sortBySelected
-          selected={(tag) => tagFilter.some((t) => t.id == tag.id)}
-          showState
-        />
+        <div className={styles.albumRow__tags}>
+          <TagPile
+            tags={album.tags}
+            sortBySelected
+            selected={(tag) => tagFilter.some((t) => t.id == tag.id)}
+            showState
+          />
+        </div>
         {deleting && (
           <Button
             className={styles.albumRow__delete}
