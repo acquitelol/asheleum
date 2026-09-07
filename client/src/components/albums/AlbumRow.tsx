@@ -34,7 +34,7 @@ export default function AlbumRow({ album }: { album: Album }) {
       <div className={styles.albumRow__content}>
         <div
           className={styles.albumRow__title}
-          onClick={() => window.open(album.url, "_blank")}
+          onClick={() => !editing && window.open(album.url, "_blank")}
         >
           {album.name} ⇗
         </div>

@@ -26,22 +26,21 @@ export default function TagPill({
   onClick?: (_: boolean) => any;
   selected?: boolean;
 }) {
-  const { albums } = useAlbums();
+  const { albums, editing } = useAlbums();
+  const active = !editing && (selectable || clickable);
 
   return (
     <span
       style={{
         fontSize: `${size}em`,
-        pointerEvents: selectable || clickable ? "auto" : "none",
-        userSelect: selectable || clickable ? "none" : "auto",
+        pointerEvents: active ? "auto" : "none",
+        userSelect: active ? "none" : "auto",
         backgroundColor:
           showState && selected
             ? "var(--color-primary)"
             : "var(--color-surface-above)",
       }}
-      onClick={() =>
-        selectable ? onClick(!selected) : clickable ? onClick(true) : null
-      }
+      onClick={() => active && onClick(!selected)}
       className={styles.tagPill}
     >
       {showIcon
