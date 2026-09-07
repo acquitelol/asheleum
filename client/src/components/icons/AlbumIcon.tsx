@@ -1,4 +1,10 @@
-export default function AlbumIcon({ size = 24 }: { size?: number }) {
+export default function AlbumIcon({
+  size = 24,
+  className = "",
+}: {
+  size?: number;
+  className?: string;
+}) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -10,6 +16,7 @@ export default function AlbumIcon({ size = 24 }: { size?: number }) {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      className={className}
     >
       <circle cx="12" cy="12" r="10" />
       <path d="M6 12c0-1.7.7-3.2 1.8-4.2" />

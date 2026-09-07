@@ -1,0 +1,38 @@
+.container {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    gap: 2em;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon {
+    animation: spinBack 4s infinite;
+    animation-timing-function: cubic-bezier(0.25, 0.95, 0.88, 1);
+}
+
+@keyframes spinBack {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    10% {
+        transform: rotate(-20deg);
+    }
+
+    50% {
+        transform: rotate(360deg);
+    }
+
+    60% {
+        transform: rotate(380deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
