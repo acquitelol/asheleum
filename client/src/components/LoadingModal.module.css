@@ -8,11 +8,16 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background: var(--color-background);
+
+    transition: opacity 0.3s ease;
+    transition-delay: 0.3s;
 }
 
 .icon {
     animation: spinBack 4s infinite;
-    animation-timing-function: cubic-bezier(0.25, 0.95, 0.88, 1);
+    animation-timing-function: linear;
+    transition: rotate 0.3s ease;
 }
 
 @keyframes spinBack {
@@ -20,19 +25,12 @@
         transform: rotate(0deg);
     }
 
-    10% {
-        transform: rotate(-20deg);
-    }
-
-    50% {
+    100% {
         transform: rotate(360deg);
     }
+}
 
-    60% {
-        transform: rotate(380deg);
-    }
-
-    100% {
-        transform: rotate(0deg);
-    }
+.stop {
+    animation-play-state: paused;
+    rotate: -60deg;
 }

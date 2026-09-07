@@ -9,11 +9,11 @@ import Album from "./pages/Album";
 import Albums from "./pages/Albums";
 import Tags from "./pages/Tags";
 import Account from "./pages/Account";
-import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 import { AlbumProvider } from "./context/AlbumContext";
 import { TagProvider } from "./context/TagContext";
 import { ModalProvider } from "./context/ModalContext";
+import LoadingModal from "./components/LoadingModal";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -25,7 +25,7 @@ createRoot(document.getElementById("root")!).render(
               <Routes>
                 <Route path="/login" element={<Login />} />
 
-                <Route element={<ProtectedRoute />}>
+                <Route element={<LoadingModal />}>
                   <Route path="/" element={<App />} />
                   <Route path="/albums/:albumId" element={<Album />} />
                   <Route path="/albums" element={<Albums />} />

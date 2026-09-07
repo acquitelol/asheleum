@@ -1,7 +1,5 @@
 import { useTags, type Tag } from "@/context/TagContext";
 import styles from "./TagTable.module.css";
-import Loading from "../Loading";
-// import AlbumRow from "./AlbumRow";
 import { createElement, useMemo, type CSSProperties } from "react";
 import { NoExist, NoFound } from "../NoExist";
 import TagIcon from "../icons/TagIcon";
@@ -45,56 +43,56 @@ export default function TagTable({
     [customTagFilter, processedTags],
   );
 
-  return loading ? (
-    <Loading />
-  ) : (
-    <div className={styles.tagTable} style={style}>
-      {filteredTags && filteredTags.length ? (
-        <div className={styles.tagList}>
-          {filteredTags.map((tag) => (
-            <TagPill
-              tag={tag}
-              size={1}
-              showState={showState}
-              showIcon={showIcon}
-              selectable={selectable(tag)}
-              clickable={clickable(tag)}
-              selected={selected(tag)}
-              quantity={quantity}
-              key={tag.id}
-              onClick={() => {
-                if (onClick) {
-                  onClick(tag);
-                  return;
-                }
+  return (
+    !loading && (
+      <div className={styles.tagTable} style={style}>
+        {filteredTags && filteredTags.length ? (
+          <div className={styles.tagList}>
+            {filteredTags.map((tag) => (
+              <TagPill
+                tag={tag}
+                size={1}
+                showState={showState}
+                showIcon={showIcon}
+                selectable={selectable(tag)}
+                clickable={clickable(tag)}
+                selected={selected(tag)}
+                quantity={quantity}
+                key={tag.id}
+                onClick={() => {
+                  if (onClick) {
+                    onClick(tag);
+                    return;
+                  }
 
-                if (deleting) {
-                  setTagIdsToDelete((tags) =>
-                    tags.includes(tag.id)
-                      ? tags.filter((tagId) => tagId !== tag.id)
-                      : [...tags, tag.id],
-                  );
+                  if (deleting) {
+                    setTagIdsToDelete((tags) =>
+                      tags.includes(tag.id)
+                        ? tags.filter((tagId) => tagId !== tag.id)
+                        : [...tags, tag.id],
+                    );
 
-                  return;
-                }
+                    return;
+                  }
 
-                if (!clickable(tag)) return;
-                setTagFilter([tag]);
-                navigate("/albums?filterAlbums=true");
-              }}
-            />
-          ))}
-        </div>
-      ) : (
-        createElement(
-          CustomMissingComponent ?? (tags.length ? NoFound : NoExist),
-          {
-            style: { margin: "1em" },
-            text: "tags",
-            Icon: TagIcon,
-          },
-        )
-      )}
-    </div>
+                  if (!clickable(tag)) return;
+                  setTagFilter([tag]);
+                  navigate("/albums?filterAlbums=true");
+                }}
+              />
+            ))}
+          </div>
+        ) : (
+          createElement(
+            CustomMissingComponent ?? (tags.length ? NoFound : NoExist),
+            {
+              style: { margin: "1em" },
+              text: "tags",
+              Icon: TagIcon,
+            },
+          )
+        )}
+      </div>
+    )
   );
 }

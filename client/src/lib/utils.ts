@@ -25,3 +25,6 @@ export function insertAlphabetically<T extends { name: string }>(
 
   return [...items.slice(0, index), item, ...items.slice(index)];
 }
+
+export const sleep = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
