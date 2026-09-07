@@ -1,0 +1,16 @@
+.container {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    gap: 2em;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: var(--color-background);
+}
+
+.title {
+    font-size: min(10vw, 5rem);
+}
