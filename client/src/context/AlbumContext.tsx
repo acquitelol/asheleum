@@ -74,8 +74,8 @@ export function AlbumProvider({ children }: { children: React.ReactNode }) {
     const tagFiltered =
       tagFilter.length && !loading
         ? formatFiltered.filter((album) =>
-            (filterAny ? tagFilter.some : tagFilter.every)((t) =>
-              album.tags.some((tag) => tag.id === t.id),
+            (filterAny ? tagFilter.some : tagFilter.every).bind(tagFilter)(
+              (t) => album.tags.some((tag) => tag.id === t.id),
             ),
           )
         : formatFiltered;
