@@ -1,6 +1,5 @@
 import {
   createElement,
-  useEffect,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -28,6 +27,7 @@ import { useModal } from "@/context/ModalContext";
 import { randomChoice } from "@/lib/utils";
 import ListTodoIcon from "../icons/ListTodoIcon";
 import ListChecksIcon from "../icons/ListChecksIcon";
+import { useMedia } from "@/context/MediaContext";
 
 export default function AlbumActions() {
   const {
@@ -54,11 +54,9 @@ export default function AlbumActions() {
   const filterRef = useRef<HTMLDivElement>(null);
   const [filterHeight, setFilterHeight] = useState(0);
   const { setData } = useModal();
+  const { small } = useMedia();
 
   const [tagQuery, setTagQuery] = useState("");
-  const [small, setSmall] = useState(
-    window.matchMedia("(max-width: 700px)").matches,
-  );
 
   const filteredTags = useMemo(
     () =>
@@ -69,13 +67,6 @@ export default function AlbumActions() {
         : tags,
     [tags, tagQuery],
   );
-
-  useEffect(() => {
-    const media = window.matchMedia("(max-width: 700px)");
-    const handler = () => setSmall(media.matches);
-    media.addEventListener("change", handler);
-    return () => media.removeEventListener("change", handler);
-  }, []);
 
   useLayoutEffect(() => {
     if (filterRef.current) {

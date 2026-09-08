@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import TagIcon from "../icons/TagIcon";
 import { useModal } from "@/context/ModalContext";
 import { useAlbums } from "@/context/AlbumContext";
+import { useMedia } from "@/context/MediaContext";
 
 export default function TagActions({
   home = false,
@@ -44,6 +45,7 @@ export default function TagActions({
   } = useTags();
   const { albums, setAlbums } = useAlbums();
   const { setData } = useModal();
+  const { small } = useMedia();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const showFilter = searchParams.get("filterTags") === "true";
@@ -80,9 +82,10 @@ export default function TagActions({
             })
           }
           kind="neutral"
-          className={`${styles.button} ${styles.squareButton}`}
+          className={`${styles.button} ${small ? styles.squareButton : ""}`}
         >
-          <SearchIcon />
+          <SearchIcon size={20} />
+          {!small && " Search"}
         </Button>
 
         <Button
@@ -93,19 +96,20 @@ export default function TagActions({
             })
           }
           kind="neutral"
-          className={styles.button}
+          className={`${styles.button} ${small ? styles.squareButton : ""}`}
         >
-          {createElement(sortDir ? SortDescIcon : SortAscIcon, { size: 18 })}{" "}
-          Sort
+          {createElement(sortDir ? SortDescIcon : SortAscIcon, { size: 18 })}
+          {!small && " Sort"}
         </Button>
 
         {modal && (
           <Button
             onClick={() => setData((p) => ({ ...p, show: false }))}
             kind="negative"
-            className={`${styles.button} ${styles.squareButton}`}
+            className={`${styles.button} ${small ? styles.squareButton : ""}`}
           >
             <CancelIcon size={20} />
+            {!small && " Close"}
           </Button>
         )}
 
@@ -113,10 +117,10 @@ export default function TagActions({
           <Button
             onClick={() => navigate(`/tags?${searchParams.toString()}`)}
             kind="neutral"
-            className={styles.button}
+            className={`${styles.button} ${small ? styles.squareButton : ""}`}
           >
             <TagIcon size={18} />
-            View all
+            {!small && " View all"}
           </Button>
         )}
 
@@ -132,11 +136,12 @@ export default function TagActions({
               })
             }
             kind={deleting ? "neutral" : "negative"}
-            className={`${styles.button} ${styles.squareButton}`}
+            className={`${styles.button} ${small ? styles.squareButton : ""}`}
           >
             {createElement(deleting ? CancelIcon : TrashIcon, {
               size: deleting ? 20 : 18,
             })}
+            {!small && (deleting ? " Cancel" : " Delete")}
           </Button>
         )}
 
@@ -151,7 +156,7 @@ export default function TagActions({
               setDeleting(false);
             }}
             kind={"positive"}
-            className={`${styles.button}`}
+            className={`${styles.button} ${small ? styles.squareButton : ""}`}
             style={{
               opacity: tagIdsToDelete.length ? 1 : 0.5,
               pointerEvents: tagIdsToDelete.length ? "all" : "none",
