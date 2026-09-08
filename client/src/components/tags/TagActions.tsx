@@ -174,7 +174,7 @@ export default function TagActions({
               setDeleting(false);
             }}
             kind={"positive"}
-            className={`${styles.button} ${small ? styles.squareButton : ""}`}
+            className={`${styles.button}`}
             style={{
               opacity: tagIdsToDelete.length ? 1 : 0.5,
               pointerEvents: tagIdsToDelete.length ? "all" : "none",
