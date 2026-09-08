@@ -12,6 +12,8 @@ export type Tag = {
 type TagContextType = {
   tags: Tag[];
   setTags: React.Dispatch<React.SetStateAction<Tag[]>>;
+  showSelected: boolean;
+  setShowSelected: React.Dispatch<React.SetStateAction<boolean>>;
   tagFilter: Tag[];
   setTagFilter: React.Dispatch<React.SetStateAction<Tag[]>>;
   sortDir: boolean;
@@ -28,6 +30,7 @@ const TagContext = createContext<TagContextType | null>(null);
 
 export function TagProvider({ children }: { children: React.ReactNode }) {
   const [tagIdsToDelete, setTagIdsToDelete] = useState<string[]>([]);
+  const [showSelected, setShowSelected] = useState(false);
   const [tagFilter, setTagFilter] = useState<Tag[]>([]);
   const [deleting, setDeleting] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -68,6 +71,8 @@ export function TagProvider({ children }: { children: React.ReactNode }) {
         setTags,
         tagFilter,
         setTagFilter,
+        showSelected,
+        setShowSelected,
         processedTags,
         searchQuery,
         sortDir,

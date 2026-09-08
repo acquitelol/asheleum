@@ -16,7 +16,7 @@ export default function () {
     data: { show, albumId, kind },
   } = useModal();
   const { albums, setAlbums } = useAlbums();
-  const { tags } = useTags();
+  const { tags, showSelected } = useTags();
 
   const album = albums.find((album) => album.id === albumId)!;
 
@@ -58,6 +58,11 @@ export default function () {
                 selected={(tag) =>
                   album?.tags?.some((t) => t.id === tag.id) ?? false
                 }
+                customTagFilter={(tag) =>
+                  showSelected
+                    ? (album?.tags?.some((t) => t.id === tag.id) ?? true)
+                    : true
+                }
                 quantity={false}
                 onClick={(tag) => {
                   album?.tags?.some((t) => t.id === tag.id)
@@ -67,6 +72,7 @@ export default function () {
               />
               <TagActions
                 style={{ marginBottom: "4em" }}
+                showSelectedButton
                 popout={false}
                 modal
               />

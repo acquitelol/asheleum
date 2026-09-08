@@ -21,23 +21,28 @@ import TagIcon from "../icons/TagIcon";
 import { useModal } from "@/context/ModalContext";
 import { useAlbums } from "@/context/AlbumContext";
 import { useMedia } from "@/context/MediaContext";
+import ListChecksIcon from "../icons/ListChecksIcon";
 
 export default function TagActions({
   home = false,
   modal = false,
   popout = true,
   style = {},
+  showSelectedButton = false,
 }: {
   home?: boolean;
   modal?: boolean;
   popout?: boolean;
   style?: CSSProperties;
+  showSelectedButton?: boolean;
 }) {
   const {
     tags,
     setTags,
     sortDir,
     searchQuery,
+    showSelected,
+    setShowSelected,
     deleting,
     setDeleting,
     tagIdsToDelete,
@@ -101,6 +106,19 @@ export default function TagActions({
           {createElement(sortDir ? SortDescIcon : SortAscIcon, { size: 18 })}
           {!small && " Sort"}
         </Button>
+
+        {showSelectedButton && (
+          <Button
+            onClick={() => setShowSelected((p) => !p)}
+            kind={showSelected ? "positive" : "neutral"}
+            className={`${styles.button} ${small ? styles.squareButton : ""}`}
+          >
+            {createElement(showSelected ? CancelIcon : ListChecksIcon, {
+              size: 20,
+            })}
+            {!small && (showSelected ? " Show all tags" : " Show selected")}
+          </Button>
+        )}
 
         {modal && (
           <Button
