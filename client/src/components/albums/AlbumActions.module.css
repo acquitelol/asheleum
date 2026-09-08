@@ -53,7 +53,7 @@
     gap: 0.5rem;
 }
 
-.searchInput svg {
+.searchInput > svg {
     flex-shrink: 0;
     color: var(--color-text-muted);
 }
@@ -98,6 +98,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     gap: 0.5em;
+    margin-bottom: 1em;
 }
 
 .tagFilterAndClear {
@@ -119,4 +120,12 @@
     justify-content: center;
     gap: 0.25em;
     padding-inline: 0.7em;
+}
+
+.text {
+    display: block;
+
+    @media (max-width: 600px) {
+        display: none;
+    }
 }

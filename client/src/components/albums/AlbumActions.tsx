@@ -1,4 +1,11 @@
-import { createElement, useLayoutEffect, useRef, useState } from "react";
+import {
+  createElement,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Button from "../Button";
 import FilterIcon from "../icons/FilterIcon";
 import styles from "./AlbumActions.module.css";
@@ -16,6 +23,11 @@ import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import AlbumKindFilter from "./AlbumKindFilter";
 import TagAddIcon from "../icons/TagAddIcon";
+import DicesIcon from "../icons/DicesIcon";
+import { useModal } from "@/context/ModalContext";
+import { randomChoice } from "@/lib/utils";
+import ListTodoIcon from "../icons/ListTodoIcon";
+import ListChecksIcon from "../icons/ListChecksIcon";
 
 export default function AlbumActions() {
   const {
@@ -24,10 +36,13 @@ export default function AlbumActions() {
     sortDir,
     searchQuery,
     formatQuery,
+    filterAny,
+    setFilterAny,
     deleting,
     setDeleting,
     editing,
     setEditing,
+    processedAlbums,
     albumIdsToDelete,
     setAlbumIdsToDelete,
   } = useAlbums();
@@ -38,6 +53,29 @@ export default function AlbumActions() {
   const navigate = useNavigate();
   const filterRef = useRef<HTMLDivElement>(null);
   const [filterHeight, setFilterHeight] = useState(0);
+  const { setData } = useModal();
+
+  const [tagQuery, setTagQuery] = useState("");
+  const [small, setSmall] = useState(
+    window.matchMedia("(max-width: 700px)").matches,
+  );
+
+  const filteredTags = useMemo(
+    () =>
+      tagQuery !== ""
+        ? tags.filter((tag) =>
+            tag.name.toLocaleLowerCase().includes(tagQuery.toLocaleLowerCase()),
+          )
+        : tags,
+    [tags, tagQuery],
+  );
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 700px)");
+    const handler = () => setSmall(media.matches);
+    media.addEventListener("change", handler);
+    return () => media.removeEventListener("change", handler);
+  }, []);
 
   useLayoutEffect(() => {
     if (filterRef.current) {
@@ -70,12 +108,12 @@ export default function AlbumActions() {
             })
           }
           kind="neutral"
-          className={`${styles.button} ${searchParams.get("filter") === "true" ? styles.filtering : ""}`}
+          className={`${styles.button} ${small ? styles.squareButton : ""} ${searchParams.get("filter") === "true" ? styles.filtering : ""}`}
         >
           {createElement(isFiltering ? ConfirmIcon : FilterIcon, {
             size: isFiltering ? 18 : 16,
           })}
-          Filter
+          {!small && " Filter"}
         </Button>
 
         <Button
@@ -89,16 +127,34 @@ export default function AlbumActions() {
             })
           }
           kind="neutral"
-          className={styles.button}
+          className={`${styles.button} ${small ? styles.squareButton : ""}`}
         >
-          {createElement(sortDir ? SortDescIcon : SortAscIcon, { size: 18 })}{" "}
-          Sort
+          {createElement(sortDir ? SortDescIcon : SortAscIcon, {
+            size: 18,
+          })}
+          {!small && " Sort"}
+        </Button>
+
+        <Button
+          onClick={() => {
+            const album = randomChoice(processedAlbums);
+            setData({ show: true, albumId: album.id, kind: "viewing" });
+          }}
+          kind={"neutral"}
+          className={`${styles.button} ${small ? styles.squareButton : ""}`}
+          style={{
+            opacity: deleting || editing ? 0.5 : 1,
+            pointerEvents: deleting || editing ? "none" : "auto",
+          }}
+        >
+          <DicesIcon size={20} />
+          {!small && " Random"}
         </Button>
 
         <Button
           onClick={() => setEditing((p) => !p)}
           kind={editing ? "positive" : "neutral"}
-          className={`${styles.button} ${styles.squareButton}`}
+          className={`${styles.button} ${small ? styles.squareButton : ""}`}
           style={{
             opacity: deleting ? 0.5 : 1,
             pointerEvents: deleting ? "none" : "auto",
@@ -107,6 +163,7 @@ export default function AlbumActions() {
           {createElement(editing ? CancelIcon : TagAddIcon, {
             size: editing ? 20 : 18,
           })}
+          {!small && (editing ? " Cancel" : " Edit")}
         </Button>
 
         <Button
@@ -120,7 +177,7 @@ export default function AlbumActions() {
             })
           }
           kind={deleting ? "neutral" : "negative"}
-          className={`${styles.button} ${styles.squareButton}`}
+          className={`${styles.button} ${small ? styles.squareButton : ""}`}
           style={{
             opacity: editing ? 0.5 : 1,
             pointerEvents: editing ? "none" : "auto",
@@ -129,6 +186,7 @@ export default function AlbumActions() {
           {createElement(deleting ? CancelIcon : TrashIcon, {
             size: deleting ? 20 : 18,
           })}
+          {!small && (deleting ? " Cancel" : " Delete")}
         </Button>
 
         {deleting && (
@@ -175,7 +233,7 @@ export default function AlbumActions() {
                   return p;
                 })
               }
-              placeholder="Search..."
+              placeholder="Search albums..."
             />
           </div>
 
@@ -199,8 +257,8 @@ export default function AlbumActions() {
 
           <h3 style={{ marginBottom: "1em" }}>Tag filters:</h3>
           <div className={styles.tagFilter}>
-            {tags.length ? (
-              tags.map((tag) => (
+            {filteredTags.length ? (
+              filteredTags.map((tag) => (
                 <TagPill
                   tag={tag}
                   size={0.75}
@@ -222,7 +280,9 @@ export default function AlbumActions() {
               <TagPill
                 tag={{
                   id: "N/A",
-                  name: "You don't have any tags.",
+                  name: tags.length
+                    ? "No tags match this search query."
+                    : "You don't have any tags.",
                   userId: "N/A",
                   createdAt: "N/A",
                 }}
@@ -240,6 +300,27 @@ export default function AlbumActions() {
               clickable
               onClick={() => navigate("/tags")}
             />
+          </div>
+          <div className={styles.searchInput}>
+            <SearchIcon />
+            <input
+              className={styles.textInput}
+              type="text"
+              value={tagQuery}
+              onChange={(e) => setTagQuery(e.target.value)}
+              placeholder="Search tags..."
+            />
+            <Button
+              kind="neutral"
+              border
+              className={styles.clearFilters}
+              onClick={() => setFilterAny((p) => !p)}
+            >
+              {createElement(filterAny ? ListTodoIcon : ListChecksIcon, {
+                size: filterAny ? 16 : 18,
+              })}{" "}
+              {filterAny ? "Any" : "All"}
+            </Button>
           </div>
         </div>
       </div>

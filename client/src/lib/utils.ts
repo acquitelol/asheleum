@@ -28,3 +28,7 @@ export function insertAlphabetically<T extends { name: string }>(
 
 export const sleep = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
+
+export function randomChoice<T>(array: T[]): T {
+  return array[Math.floor(Math.random() * array.length)];
+}

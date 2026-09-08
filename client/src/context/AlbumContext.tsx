@@ -21,6 +21,8 @@ type AlbumContextType = {
   sortDir: boolean;
   searchQuery: string;
   formatQuery: (keyof typeof ALBUM_FORMATS)[];
+  filterAny: boolean;
+  setFilterAny: React.Dispatch<React.SetStateAction<boolean>>;
   deleting: boolean;
   setDeleting: React.Dispatch<React.SetStateAction<boolean>>;
   editing: boolean;
@@ -36,6 +38,7 @@ const AlbumContext = createContext<AlbumContextType | null>(null);
 export function AlbumProvider({ children }: { children: React.ReactNode }) {
   const [albumIdsToDelete, setAlbumIdsToDelete] = useState<string[]>([]);
   const [albums, setAlbums] = useState<Album[]>([]);
+  const [filterAny, setFilterAny] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -71,7 +74,9 @@ export function AlbumProvider({ children }: { children: React.ReactNode }) {
     const tagFiltered =
       tagFilter.length && !loading
         ? formatFiltered.filter((album) =>
-            tagFilter.every((t) => album.tags.some((tag) => tag.id === t.id)),
+            (filterAny ? tagFilter.some : tagFilter.every)((t) =>
+              album.tags.some((tag) => tag.id === t.id),
+            ),
           )
         : formatFiltered;
 
@@ -97,6 +102,8 @@ export function AlbumProvider({ children }: { children: React.ReactNode }) {
         sortDir,
         searchQuery,
         formatQuery: formatQuery as any[],
+        filterAny,
+        setFilterAny,
         deleting,
         setDeleting,
         editing,
