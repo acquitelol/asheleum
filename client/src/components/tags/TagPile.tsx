@@ -2,8 +2,7 @@ import { useTags, type Tag } from "@/context/TagContext";
 import { useNavigate } from "react-router-dom";
 import styles from "./TagPile.module.css";
 import TagPill from "./TagPill";
-
-const MAX_SHOWN = 2;
+import { useMedia } from "@/context/MediaContext";
 
 export default function TagPile({
   tags,
@@ -19,7 +18,9 @@ export default function TagPile({
   selected?: (t: Tag) => boolean;
 }) {
   const { tagFilter, setTagFilter } = useTags();
+  const { small } = useMedia();
   const navigate = useNavigate();
+  const max_shown = small ? 0 : 2;
 
   const sortedTags =
     sortBySelected && tagFilter.length
@@ -28,7 +29,7 @@ export default function TagPile({
 
   return (
     <div className={styles.container}>
-      {sortedTags.slice(0, MAX_SHOWN).map((tag) => (
+      {sortedTags.slice(0, max_shown).map((tag) => (
         <TagPill
           tag={tag}
           size={size}
@@ -42,17 +43,17 @@ export default function TagPile({
           }}
         />
       ))}
-      {sortedTags.length > MAX_SHOWN ? (
+      {sortedTags.length > max_shown ? (
         <TagPill
           tag={{
             id: "N/A",
-            name: `+${tags.length - MAX_SHOWN}`,
+            name: `+${tags.length - max_shown}`,
             userId: "N/A",
             createdAt: "N/A",
           }}
           size={size}
           showState={showState}
-          selected={sortedTags.slice(MAX_SHOWN).some(selected)}
+          selected={sortedTags.slice(max_shown).some(selected)}
         />
       ) : null}
     </div>

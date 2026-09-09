@@ -20,6 +20,12 @@ export const auth = betterAuth({
     },
   },
 
+  user: {
+    deleteUser: {
+      enabled: true,
+    },
+  },
+
   advanced: {
     useSecureCookies: true,
     defaultCookieAttributes: {

@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { API_URL } from "@/lib/constants.ts";
-import { sleep } from "@/lib/utils";
+// import { sleep } from "@/lib/utils";
 
 type User = {
   id: string;
@@ -29,7 +29,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     })
       .then((res) => res.json())
       .then((data) => setUser(data.user))
-      .then(() => sleep(2000))
+      // .then(() => sleep(2000))
       .finally(() => setLoading(false));
   }, []);
 

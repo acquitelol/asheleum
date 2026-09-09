@@ -19,3 +19,8 @@ export async function signOut() {
 
   location.reload();
 }
+
+export async function deleteAccount() {
+  await authClient.deleteUser({ callbackURL: BASE_URL });
+  location.reload();
+}

@@ -10,13 +10,13 @@ export async function getAlbums() {
 }
 
 export async function addAlbum(
-  e: React.FormEvent,
+  e: React.FormEvent | null,
   albumUrl: string,
   setLoading: Dispatch<SetStateAction<boolean>>,
   setAlbumUrl: Dispatch<SetStateAction<string>>,
   setAlbums: Dispatch<SetStateAction<Album[]>>,
 ) {
-  e.preventDefault();
+  e?.preventDefault();
   setAlbumUrl("");
   setLoading(true);
 

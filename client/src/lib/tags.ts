@@ -11,13 +11,13 @@ export async function getTags() {
 }
 
 export async function addTag(
-  e: React.FormEvent,
+  e: React.FormEvent | null,
   name: string,
   tags: Tag[],
   setName: (_: string) => void,
   setTags: Dispatch<SetStateAction<Tag[]>>,
 ) {
-  e.preventDefault();
+  e?.preventDefault();
   const prevTags = tags;
   const dummyTag = {
     id: `optimistic-${crypto.randomUUID()}`,
@@ -43,6 +43,7 @@ export async function addTag(
 
     const tag: Tag = await res.json();
     setTags((tags) => tags.map((t) => (t.id === dummyTag.id ? tag : t)));
+    return tag;
   } catch (error) {
     setTags(prevTags);
     throw error;
