@@ -35,17 +35,17 @@ export default function () {
         <div className={styles.contentContainer}>
           <div className={styles.content}>
             <div className={styles.header}>
-              <img className={styles.image} src={user.image} />
+              <img className={styles.image} src={user?.image} />
               <div className={styles.name}>
-                <AccountInput name={"Name"} value={user.name} />
+                <AccountInput name={"Name"} value={user?.name ?? "N/A"} />
               </div>
             </div>
             <div className={styles.rows}>
-              <AccountInput name={"Email"} value={user.email} />
-              <AccountInput name={"ID"} value={user.id} />
+              <AccountInput name={"Email"} value={user?.email ?? "N/A"} />
+              <AccountInput name={"ID"} value={user?.id ?? "N/A"} />
               <AccountInput
                 name={"Created"}
-                value={new Date(user.createdAt).toLocaleString()}
+                value={new Date(user?.createdAt ?? "N/A").toLocaleString()}
               />
             </div>
           </div>

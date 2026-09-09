@@ -17,12 +17,12 @@ export const importData = (
   input.addEventListener("change", handleFileSelection);
   input.addEventListener("cancel", () => setLoading(false));
 
-  function handleFileSelection(event) {
+  function handleFileSelection(event: any) {
     const file = event.target.files[0];
     const reader = new FileReader();
 
     reader.onload = async (e) => {
-      const contents = e.target.result as string;
+      const contents = e?.target?.result as string;
       const {
         albums: newAlbums,
         tags: newTags,
@@ -33,7 +33,7 @@ export const importData = (
         if (tags.some((t) => t.id === tag.id)) continue;
         try {
           const newTag = await addTag(null, tag.name, tags, () => {}, setTags);
-          tagMap[tag.id] = newTag.id;
+          tagMap.set(tag.id, newTag.id);
           // this is very hacky but for the purposes of this
           // app it works fine i suppose
           // this is here because, despite addTag using setTags
@@ -61,8 +61,8 @@ export const importData = (
         }
 
         for (const tag of album.tags) {
-          const newTagId = tagMap[tag.id];
-          await setAlbumTag(newTagId, album.id, albums, tags, setAlbums);
+          const newTagId = tagMap.get(tag.id);
+          await setAlbumTag(newTagId!, album.id, albums, tags, setAlbums);
         }
       }
 
