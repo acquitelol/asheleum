@@ -1,3 +1,4 @@
+import { useSearchParams } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import styles from "./Navigation.module.css";
@@ -18,8 +19,9 @@ const ROUTES = [
 ];
 
 export default function () {
-  const { user } = useAuth();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   return user ? (
     <div className={styles.nav} style={{ zIndex: 2000 }}>
@@ -28,7 +30,9 @@ export default function () {
           {ROUTES.map((route) => (
             <div
               className={styles.route}
-              onClick={() => navigate(`/${route.path}`)}
+              onClick={() =>
+                navigate(`/${route.path}?${searchParams.toString()}`)
+              }
               key={route.name}
             >
               {route.name}
