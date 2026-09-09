@@ -82,10 +82,14 @@ export function AlbumProvider({ children }: { children: React.ReactNode }) {
 
     const queryFiltered =
       searchQuery !== "" && tagFiltered
-        ? tagFiltered.filter((album) =>
-            album.name
-              .toLocaleLowerCase()
-              .includes(searchQuery.toLocaleLowerCase()),
+        ? tagFiltered.filter(
+            (album) =>
+              album.name
+                .toLocaleLowerCase()
+                .includes(searchQuery.toLocaleLowerCase()) ||
+              album.artist
+                .toLocaleLowerCase()
+                .includes(searchQuery.toLocaleLowerCase()),
           )
         : tagFiltered;
 
