@@ -102,7 +102,7 @@ export default function () {
               kind={"negative"}
               border
               className={styles.button}
-              style={{ marginTop: "1em" }}
+              style={{ marginBlock: "1em" }}
             >
               <TrashIcon size={20} />
               Delete account
