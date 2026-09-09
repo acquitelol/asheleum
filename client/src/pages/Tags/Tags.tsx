@@ -6,13 +6,13 @@ import TagTable from "@/components/tags/TagTable";
 import { useTags } from "@/context/TagContext";
 
 export default function () {
-  const { deleting, tagIdsToDelete } = useTags();
+  const { deleting, tags, tagIdsToDelete } = useTags();
 
   return (
     <div>
       <main>
         <div className={styles.titleContainer}>
-          <h1>Tags</h1>
+          <h1>Tags ({tags.length})</h1>
         </div>
         <div className={styles.addTagContainer}>
           <TagInput />

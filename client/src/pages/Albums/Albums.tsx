@@ -24,7 +24,7 @@ export default function () {
     <div>
       <main>
         <div className={styles.titleContainer}>
-          <h1>Albums</h1>
+          <h1>Albums ({albums.length})</h1>
         </div>
         <div className={styles.addAlbumContainer}>
           <AlbumInput />
