@@ -126,4 +126,11 @@
     font: inherit;
 
     outline: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.modalTitle {
+    display: flex;
+    flex-direction: row;
 }

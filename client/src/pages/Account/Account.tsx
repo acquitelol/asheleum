@@ -15,6 +15,7 @@ import { exportData } from "@/lib/export";
 import { importData } from "@/lib/import";
 import { createElement, useState } from "react";
 import LoadingIcon from "@/components/icons/LoadingIcon";
+import CancelIcon from "@/components/icons/CancelIcon";
 
 export default function () {
   const [loading, setLoading] = useState(false);
@@ -120,7 +121,19 @@ export default function () {
       >
         <div className={styles.modal}>
           <div className={styles.modalContent}>
-            <h1>Delete account?</h1>
+            <div className={styles.modalTitle}>
+              <h1>Delete account?</h1>
+              <Button
+                onClick={() => setShow((p) => !p)}
+                kind={"negative"}
+                border
+                className={`${styles.button} ${small ? styles.squareButton : ""}`}
+                style={{ marginLeft: "auto" }}
+              >
+                <CancelIcon size={22} />
+                {small ? "" : " Close"}
+              </Button>
+            </div>
             <p style={{ marginBlock: "1em", fontSize: "1.2em" }}>
               Are you sure you want to delete your account? This is a permanent
               decision and will delete your account and all associated data with
