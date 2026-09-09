@@ -49,7 +49,7 @@ export default function () {
                 style={{
                   marginBottom: 0,
                   width: "calc(100vw - 4em)",
-                  maxWidth: "60em",
+                  maxWidth: "80em",
                 }}
                 showState
                 showIcon
@@ -110,7 +110,7 @@ export default function () {
                 style={{
                   marginBottom: 0,
                   width: "calc(100vw - 4em)",
-                  maxWidth: "60em",
+                  maxWidth: "80em",
                 }}
                 selectable={() => false}
                 clickable={() => false}
