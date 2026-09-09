@@ -10,17 +10,19 @@ export default function TagPile({
   showState = false,
   sortBySelected = false,
   selected = () => false,
+  shortenWhenSmall = true,
 }: {
   tags: Tag[];
   size?: number;
   showState?: boolean;
   sortBySelected?: boolean;
   selected?: (t: Tag) => boolean;
+  shortenWhenSmall?: boolean;
 }) {
   const { tagFilter, setTagFilter } = useTags();
   const { small } = useMedia();
   const navigate = useNavigate();
-  const max_shown = small ? 0 : 2;
+  const max_shown = shortenWhenSmall && small ? 0 : 2;
 
   const sortedTags =
     sortBySelected && tagFilter.length

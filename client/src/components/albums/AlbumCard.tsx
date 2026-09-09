@@ -24,7 +24,12 @@ export default function AlbumCard({ album }: { album: Album }) {
         </div>
 
         <div className={styles.albumCard__tags}>
-          <TagPile tags={album.tags} size={0.75} showState />
+          <TagPile
+            tags={album.tags}
+            size={0.75}
+            showState
+            shortenWhenSmall={false}
+          />
         </div>
       </div>
     </div>
