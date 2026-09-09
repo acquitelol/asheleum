@@ -49,7 +49,10 @@ export default function TagActions({
     setTagIdsToDelete,
   } = useTags();
   const { albums, setAlbums } = useAlbums();
-  const { setData } = useModal();
+  const {
+    data: { show },
+    setData,
+  } = useModal();
   const { small } = useMedia();
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -190,7 +193,7 @@ export default function TagActions({
           height: showFilter || !popout ? filterHeight : 0,
           opacity: showFilter ? 1 : 0,
           marginBottom: showFilter || !popout ? "1em" : 0,
-          pointerEvents: showFilter ? "auto" : "none",
+          pointerEvents: showFilter && (!modal || show) ? "auto" : "none",
         }}
       >
         <div className={styles.searchInput} ref={filterRef}>
