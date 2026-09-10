@@ -29,6 +29,10 @@
     --font-family: "Encode Sans Expanded", Arial, sans-serif;
 }
 
+html {
+    font-size: 90%;
+}
+
 * {
     box-sizing: border-box;
     scrollbar-gutter: stable;
