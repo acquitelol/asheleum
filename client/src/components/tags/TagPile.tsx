@@ -49,7 +49,7 @@ export default function TagPile({
         <TagPill
           tag={{
             id: "N/A",
-            name: `+${tags.length - max_shown}`,
+            name: `${max_shown > 0 ? "+" : ""}${tags.length - max_shown}`,
             userId: "N/A",
             createdAt: "N/A",
           }}
