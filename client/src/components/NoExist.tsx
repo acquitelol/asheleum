@@ -13,14 +13,10 @@ export function NoExist({
   text?: string;
   Icon?: React.ComponentType<any>;
 }) {
-  const { small } = useMedia();
-
   return (
     <div className={styles.container} style={style}>
       <Icon size={20} />
-      <p>
-        You don't have any {text}.{small ? "" : " Go and get some! :("}
-      </p>
+      <p>You don't have any {text}.</p>
     </div>
   );
 }
@@ -34,14 +30,10 @@ export function NoFound({
   text?: string;
   Icon?: React.ComponentType<any>;
 }) {
-  const { small } = useMedia();
-
   return (
     <div className={styles.container} style={style}>
       <Icon size={20} />
-      <p>
-        No {text} matched your search query.{small ? "" : " Try again?"}
-      </p>
+      <p>No {text} matched your search query.</p>
     </div>
   );
 }
