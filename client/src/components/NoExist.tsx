@@ -2,7 +2,6 @@ import type React from "react";
 import AlbumIcon from "./icons/AlbumIcon";
 import styles from "./NoExist.module.css";
 import TagIcon from "./icons/TagIcon";
-import { useMedia } from "@/context/MediaContext";
 
 export function NoExist({
   style = {},
