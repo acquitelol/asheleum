@@ -115,6 +115,7 @@ export default function () {
                 selectable={() => false}
                 clickable={() => false}
                 selected={(tag) => tagFilter.some((t) => t.id === tag.id)}
+                showState
                 customTagFilter={(tag) =>
                   album.tags.some((t) => t.id === tag.id)
                 }

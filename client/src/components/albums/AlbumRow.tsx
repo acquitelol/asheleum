@@ -54,7 +54,7 @@ export default function AlbumRow({ album }: { album: Album }) {
           <TagPile
             tags={album.tags}
             sortBySelected
-            selected={(tag) => tagFilter.some((t) => t.id == tag.id)}
+            selected={(tag) => tagFilter.some((t) => t.id === tag.id)}
             showState
           />
         </div>
