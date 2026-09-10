@@ -16,7 +16,7 @@ export default function () {
     data: { show, albumId, kind },
   } = useModal();
   const { albums, setAlbums } = useAlbums();
-  const { tags, showSelected } = useTags();
+  const { tags, tagFilter, showSelected } = useTags();
 
   const album = albums.find((album) => album.id === albumId)!;
 
@@ -114,7 +114,7 @@ export default function () {
                 }}
                 selectable={() => false}
                 clickable={() => false}
-                selected={() => false}
+                selected={(tag) => tagFilter.some((t) => t.id === tag.id)}
                 customTagFilter={(tag) =>
                   album.tags.some((t) => t.id === tag.id)
                 }
