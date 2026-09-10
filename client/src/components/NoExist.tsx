@@ -2,6 +2,7 @@ import type React from "react";
 import AlbumIcon from "./icons/AlbumIcon";
 import styles from "./NoExist.module.css";
 import TagIcon from "./icons/TagIcon";
+import { useMedia } from "@/context/MediaContext";
 
 export function NoExist({
   style = {},
@@ -12,10 +13,14 @@ export function NoExist({
   text?: string;
   Icon?: React.ComponentType<any>;
 }) {
+  const { small } = useMedia();
+
   return (
     <div className={styles.container} style={style}>
       <Icon size={20} />
-      <p>You don't have any {text}. Go and get some! :(</p>
+      <p>
+        You don't have any {text}.{small ? "" : " Go and get some! :("}
+      </p>
     </div>
   );
 }
@@ -29,10 +34,14 @@ export function NoFound({
   text?: string;
   Icon?: React.ComponentType<any>;
 }) {
+  const { small } = useMedia();
+
   return (
     <div className={styles.container} style={style}>
       <Icon size={20} />
-      <p>No {text} matched your search query. Try again?</p>
+      <p>
+        No {text} matched your search query.{small ? "" : " Try again?"}
+      </p>
     </div>
   );
 }
