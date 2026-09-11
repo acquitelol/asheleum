@@ -42,6 +42,7 @@ export async function addAlbum(
   );
 
   setLoading(false);
+  return album;
 }
 
 export async function deleteAlbum(

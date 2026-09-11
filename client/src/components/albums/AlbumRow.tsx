@@ -5,8 +5,15 @@ import ConfirmIcon from "../icons/ConfirmIcon";
 import TagPile from "../tags/TagPile";
 import { useTags } from "@/context/TagContext";
 import { useModal } from "@/context/ModalContext";
+import type { RefObject } from "react";
 
-export default function AlbumRow({ album }: { album: Album }) {
+export default function AlbumRow({
+  album,
+  ref = null,
+}: {
+  album: Album;
+  ref?: RefObject<any>;
+}) {
   const { deleting, editing, albumIdsToDelete, setAlbumIdsToDelete } =
     useAlbums();
   const { setData } = useModal();
@@ -21,6 +28,7 @@ export default function AlbumRow({ album }: { album: Album }) {
       onClick={() =>
         editing && setData({ show: true, albumId: album.id, kind: "editing" })
       }
+      ref={ref}
     >
       <img
         className={styles.albumRow__cover}

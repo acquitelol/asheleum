@@ -5,20 +5,32 @@ import Button from "@/components/Button";
 import { addAlbum } from "@/lib/albums";
 import AlbumAddIcon from "../icons/AlbumAddIcon";
 import LoadingIcon from "../icons/LoadingIcon";
+import { useModal } from "@/context/ModalContext";
 
 export default function AlbumInput() {
   const [loading, setLoading] = useState(false);
   const [albumUrl, setAlbumUrl] = useState("");
-  const { setAlbums } = useAlbums();
+  const { setAlbums, editing, setNewAlbumId } = useAlbums();
+  const { setData } = useModal();
 
   return (
     <>
       <h3>Add a new album:</h3>
       <form
         className={styles.inputForm}
-        onSubmit={(e) =>
-          addAlbum(e, albumUrl, setLoading, setAlbumUrl, setAlbums)
-        }
+        onSubmit={async (e) => {
+          const album = await addAlbum(
+            e,
+            albumUrl,
+            setLoading,
+            setAlbumUrl,
+            setAlbums,
+          );
+
+          setNewAlbumId(album.id);
+          editing &&
+            setData({ show: true, albumId: album.id, kind: "editing" });
+        }}
       >
         <input
           className={styles.textInput}

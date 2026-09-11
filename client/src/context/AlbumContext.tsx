@@ -1,4 +1,12 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type RefObject,
+} from "react";
 import { getAlbums } from "@/lib/albums";
 import { useTags, type Tag } from "./TagContext";
 import { useSearchParams } from "react-router-dom";
@@ -21,6 +29,9 @@ type AlbumContextType = {
   sortDir: boolean;
   searchQuery: string;
   formatQuery: (keyof typeof ALBUM_FORMATS)[];
+  newAlbumId: string;
+  setNewAlbumId: React.Dispatch<React.SetStateAction<string>>;
+  newAlbumRef: RefObject<any>;
   filterAny: boolean;
   setFilterAny: React.Dispatch<React.SetStateAction<boolean>>;
   deleting: boolean;
@@ -37,12 +48,14 @@ const AlbumContext = createContext<AlbumContextType | null>(null);
 
 export function AlbumProvider({ children }: { children: React.ReactNode }) {
   const [albumIdsToDelete, setAlbumIdsToDelete] = useState<string[]>([]);
+  const [newAlbumId, setNewAlbumId] = useState("");
   const [albums, setAlbums] = useState<Album[]>([]);
   const [filterAny, setFilterAny] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [searchParams] = useSearchParams();
+  const newAlbumRef = useRef(null);
   const { tagFilter } = useTags();
 
   // false == desc, true == asc
@@ -59,6 +72,18 @@ export function AlbumProvider({ children }: { children: React.ReactNode }) {
       .catch(console.error)
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    if (!newAlbumId || !newAlbumRef.current) return;
+
+    newAlbumRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+
+    setNewAlbumId(null);
+    newAlbumRef.current = null;
+  }, [albums, newAlbumId]);
 
   const processedAlbums = useMemo(() => {
     const formatFiltered =
@@ -106,6 +131,9 @@ export function AlbumProvider({ children }: { children: React.ReactNode }) {
         sortDir,
         searchQuery,
         formatQuery: formatQuery as any[],
+        newAlbumId,
+        setNewAlbumId,
+        newAlbumRef,
         filterAny,
         setFilterAny,
         deleting,

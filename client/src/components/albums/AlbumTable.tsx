@@ -5,14 +5,19 @@ import { createElement } from "react";
 import { NoExist, NoFound } from "../NoExist";
 
 export default function AlbumTable() {
-  const { albums, processedAlbums, loading } = useAlbums();
+  const { albums, processedAlbums, loading, newAlbumId, newAlbumRef } =
+    useAlbums();
 
   return (
     !loading && (
       <div className={styles.albumTable}>
         {processedAlbums.length
           ? processedAlbums.map((album) => (
-              <AlbumRow album={album} key={album.id} />
+              <AlbumRow
+                album={album}
+                key={album.id}
+                ref={album.id === newAlbumId ? newAlbumRef : null}
+              />
             ))
           : createElement(albums.length ? NoFound : NoExist, {
               style: { margin: "1em" },
