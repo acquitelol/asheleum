@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoadingModal from "./components/LoadingModal";
+import GlobalKeybinds from "./components/GlobalKeybinds";
 import "./index.css";
 
 import App from "@/pages/App";
@@ -24,6 +25,7 @@ createRoot(document.getElementById("root")!).render(
           <TagProvider>
             <AlbumProvider>
               <MediaProvider>
+                <GlobalKeybinds />
                 <Routes>
                   <Route path="/login" element={<Login />} />
 

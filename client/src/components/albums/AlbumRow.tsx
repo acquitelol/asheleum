@@ -14,8 +14,13 @@ export default function AlbumRow({
   album: Album;
   ref?: RefObject<any> | null;
 }) {
-  const { deleting, editing, albumIdsToDelete, setAlbumIdsToDelete } =
-    useAlbums();
+  const {
+    deleting,
+    editing,
+    albumIdsToDelete,
+    setAlbumIdsToDelete,
+    newAlbumId,
+  } = useAlbums();
   const { setData } = useModal();
   const { tagFilter } = useTags();
 
@@ -24,6 +29,11 @@ export default function AlbumRow({
       className={`${styles.albumRow} ${editing ? styles.editing : ""}`}
       style={{
         cursor: editing ? "pointer" : "auto ",
+        ...(album.id === newAlbumId
+          ? {
+              backgroundColor: "var(--color-surface-hover)",
+            }
+          : {}),
       }}
       onClick={() =>
         editing && setData({ show: true, albumId: album.id, kind: "editing" })

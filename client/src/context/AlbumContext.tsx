@@ -81,7 +81,6 @@ export function AlbumProvider({ children }: { children: React.ReactNode }) {
       block: "center",
     });
 
-    setNewAlbumId("");
     newAlbumRef.current = null;
   }, [albums, newAlbumId]);
 
