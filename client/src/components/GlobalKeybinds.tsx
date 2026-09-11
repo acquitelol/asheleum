@@ -4,7 +4,12 @@ import { useCallback, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 export default function GlobalKeybinds() {
-  const { setEditing, setDeleting: setAlbumsDeleting } = useAlbums();
+  const {
+    editing,
+    setEditing,
+    deleting,
+    setDeleting: setAlbumsDeleting,
+  } = useAlbums();
   const { setDeleting: setTagsDeleting } = useTags();
   const location = useLocation();
 
@@ -25,7 +30,7 @@ export default function GlobalKeybinds() {
         case "KeyD":
           {
             event.preventDefault();
-            if (location.pathname.startsWith("/albums"))
+            if (location.pathname.startsWith("/albums") && !editing)
               setAlbumsDeleting((p) => !p);
             if (location.pathname.startsWith("/tags"))
               setTagsDeleting((p) => !p);
@@ -34,12 +39,12 @@ export default function GlobalKeybinds() {
         case "KeyE":
           {
             event.preventDefault();
-            setEditing((p) => !p);
+            !deleting && setEditing((p) => !p);
           }
           break;
       }
     },
-    [location],
+    [location, editing, deleting],
   );
 
   useEffect(() => {
