@@ -27,7 +27,7 @@ export default function AlbumInput() {
             setAlbums,
           );
 
-          setNewAlbumId(album.id);
+          setNewAlbumId({ id: album.id });
           editing &&
             setData({ show: true, albumId: album.id, kind: "editing" });
         }}

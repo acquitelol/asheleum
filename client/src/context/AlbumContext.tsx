@@ -29,8 +29,8 @@ type AlbumContextType = {
   sortDir: boolean;
   searchQuery: string;
   formatQuery: (keyof typeof ALBUM_FORMATS)[];
-  newAlbumId: string;
-  setNewAlbumId: React.Dispatch<React.SetStateAction<string>>;
+  newAlbumId: { id: string };
+  setNewAlbumId: React.Dispatch<React.SetStateAction<{ id: string }>>;
   newAlbumRef: RefObject<any>;
   filterAny: boolean;
   setFilterAny: React.Dispatch<React.SetStateAction<boolean>>;
@@ -48,7 +48,8 @@ const AlbumContext = createContext<AlbumContextType | null>(null);
 
 export function AlbumProvider({ children }: { children: React.ReactNode }) {
   const [albumIdsToDelete, setAlbumIdsToDelete] = useState<string[]>([]);
-  const [newAlbumId, setNewAlbumId] = useState("");
+  // obj so it updates every time
+  const [newAlbumId, setNewAlbumId] = useState({ id: "" });
   const [albums, setAlbums] = useState<Album[]>([]);
   const [filterAny, setFilterAny] = useState(false);
   const [deleting, setDeleting] = useState(false);

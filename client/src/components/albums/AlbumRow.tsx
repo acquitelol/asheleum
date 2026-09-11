@@ -29,7 +29,7 @@ export default function AlbumRow({
       className={`${styles.albumRow} ${editing ? styles.editing : ""}`}
       style={{
         cursor: editing ? "pointer" : "auto ",
-        ...(album.id === newAlbumId
+        ...(album.id === newAlbumId.id
           ? {
               backgroundColor: "var(--color-surface-hover)",
             }

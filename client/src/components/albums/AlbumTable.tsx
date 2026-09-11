@@ -16,7 +16,7 @@ export default function AlbumTable() {
               <AlbumRow
                 album={album}
                 key={album.id}
-                ref={album.id === newAlbumId ? newAlbumRef : null}
+                ref={album.id === newAlbumId.id ? newAlbumRef : null}
               />
             ))
           : createElement(albums.length ? NoFound : NoExist, {
