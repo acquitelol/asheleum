@@ -55,22 +55,23 @@ export default function GlobalKeybinds() {
         break;
       case "KeyE":
         {
+          if (deletingAlbums || !isAlbumsPage) return;
           event.preventDefault();
-          !deletingAlbums &&
-            setEditing((p) => {
-              const editing = !p;
 
-              if (!editing && data?.show && data?.kind === "editing") {
-                setData({ show: false });
-              }
+          setEditing((p) => {
+            const editing = !p;
 
-              return editing;
-            });
+            if (!editing && data?.show && data?.kind === "editing") {
+              setData({ show: false });
+            }
+
+            return editing;
+          });
         }
         break;
       case "KeyR":
         {
-          if (deletingAlbums || editing) break;
+          if (deletingAlbums || editing || !isAlbumsPage) break;
           event.preventDefault();
 
           const album = randomChoice(processedAlbums);
