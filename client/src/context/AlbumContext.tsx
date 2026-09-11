@@ -55,7 +55,7 @@ export function AlbumProvider({ children }: { children: React.ReactNode }) {
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [searchParams] = useSearchParams();
-  const newAlbumRef = useRef(null);
+  const newAlbumRef = useRef<HTMLDivElement>(null);
   const { tagFilter } = useTags();
 
   // false == desc, true == asc
@@ -81,7 +81,7 @@ export function AlbumProvider({ children }: { children: React.ReactNode }) {
       block: "center",
     });
 
-    setNewAlbumId(null);
+    setNewAlbumId("");
     newAlbumRef.current = null;
   }, [albums, newAlbumId]);
 

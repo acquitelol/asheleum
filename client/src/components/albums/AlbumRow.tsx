@@ -12,7 +12,7 @@ export default function AlbumRow({
   ref = null,
 }: {
   album: Album;
-  ref?: RefObject<any>;
+  ref?: RefObject<any> | null;
 }) {
   const { deleting, editing, albumIdsToDelete, setAlbumIdsToDelete } =
     useAlbums();
