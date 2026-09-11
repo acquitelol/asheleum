@@ -14,7 +14,7 @@ export default function GlobalKeybinds() {
   const location = useLocation();
 
   const handleKeyDown = useCallback(
-    (event) => {
+    (event: any) => {
       const { target, code, altKey } = event;
 
       if (
