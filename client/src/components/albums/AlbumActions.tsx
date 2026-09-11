@@ -27,9 +27,12 @@ import { randomChoice } from "@/lib/utils";
 import ListTodoIcon from "../icons/ListTodoIcon";
 import ListChecksIcon from "../icons/ListChecksIcon";
 import { useMedia } from "@/context/MediaContext";
+import { deleteAlbumsBulk } from "@/lib/albums";
 
 export default function AlbumActions() {
   const {
+    albums,
+    setAlbums,
     sortDir,
     searchQuery,
     formatQuery,
@@ -42,7 +45,6 @@ export default function AlbumActions() {
     processedAlbums,
     albumIdsToDelete,
     setAlbumIdsToDelete,
-    deleteAlbumsBulk,
   } = useAlbums();
   const { tags, tagFilter, setTagFilter } = useTags();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -180,7 +182,15 @@ export default function AlbumActions() {
 
         {deleting && (
           <Button
-            onClick={deleteAlbumsBulk}
+            onClick={() =>
+              deleteAlbumsBulk(
+                albumIdsToDelete,
+                albums,
+                setAlbums,
+                setAlbumIdsToDelete,
+                setDeleting,
+              )
+            }
             kind={"positive"}
             className={`${styles.button}`}
             style={{

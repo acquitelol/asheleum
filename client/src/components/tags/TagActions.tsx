@@ -20,6 +20,8 @@ import TagIcon from "../icons/TagIcon";
 import { useModal } from "@/context/ModalContext";
 import { useMedia } from "@/context/MediaContext";
 import ListChecksIcon from "../icons/ListChecksIcon";
+import { deleteTagsBulk } from "@/lib/tags";
+import { useAlbums } from "@/context/AlbumContext";
 
 export default function TagActions({
   home = false,
@@ -35,6 +37,8 @@ export default function TagActions({
   showSelectedButton?: boolean;
 }) {
   const {
+    tags,
+    setTags,
     sortDir,
     searchQuery,
     showSelected,
@@ -43,12 +47,12 @@ export default function TagActions({
     setDeleting,
     tagIdsToDelete,
     setTagIdsToDelete,
-    deleteTagsBulk,
   } = useTags();
   const {
     data: { show },
     setData,
   } = useModal();
+  const { albums, setAlbums } = useAlbums();
   const { small } = useMedia();
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -164,7 +168,17 @@ export default function TagActions({
 
         {!home && deleting && (
           <Button
-            onClick={deleteTagsBulk}
+            onClick={() =>
+              deleteTagsBulk(
+                tagIdsToDelete,
+                tags,
+                albums,
+                setTags,
+                setAlbums,
+                setTagIdsToDelete,
+                setDeleting,
+              )
+            }
             kind={"positive"}
             className={`${styles.button}`}
             style={{
