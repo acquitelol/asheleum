@@ -55,8 +55,8 @@ export default function GlobalKeybinds() {
         break;
       case "KeyE":
         {
-          if (deletingAlbums || !isAlbumsPage) return;
           event.preventDefault();
+          if (deletingAlbums || !isAlbumsPage) break;
 
           setEditing((p) => {
             const editing = !p;
@@ -71,8 +71,8 @@ export default function GlobalKeybinds() {
         break;
       case "KeyR":
         {
-          if (deletingAlbums || editing || !isAlbumsPage) break;
           event.preventDefault();
+          if (deletingAlbums || editing || !isAlbumsPage) break;
 
           const album = randomChoice(processedAlbums);
           setData({ show: true, albumId: album.id, kind: "viewing" });

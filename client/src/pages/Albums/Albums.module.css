@@ -7,6 +7,10 @@
 }
 
 .addAlbumContainer {
+    position: sticky;
+    top: 1em;
+    z-index: 10;
+
     background-color: var(--color-background);
     padding: 1em;
     padding-inline: 1em;
