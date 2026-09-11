@@ -4,8 +4,8 @@ import { useTags } from "@/context/TagContext";
 import { deleteAlbumsBulk } from "@/lib/albums";
 import { deleteTagsBulk } from "@/lib/tags";
 import { randomChoice } from "@/lib/utils";
-import { useCallback, useEffect } from "react";
 import { useMatch } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function GlobalKeybinds() {
   const {
@@ -27,10 +27,7 @@ export default function GlobalKeybinds() {
     tagIdsToDelete,
     setTagIdsToDelete,
   } = useTags();
-  const {
-    data: { show },
-    setData,
-  } = useModal();
+  const { data, setData } = useModal();
   const isAlbumsPage = useMatch("/albums/*");
   const isTagsPage = useMatch("/tags/*");
 
@@ -45,7 +42,7 @@ export default function GlobalKeybinds() {
       return;
     }
 
-    if (code === "Escape" && show) setData({ show: false });
+    if (code === "Escape" && data?.show) setData({ show: false });
     if (!altKey) return;
 
     switch (code) {
@@ -59,7 +56,16 @@ export default function GlobalKeybinds() {
       case "KeyE":
         {
           event.preventDefault();
-          !deletingAlbums && setEditing((p) => !p);
+          !deletingAlbums &&
+            setEditing((p) => {
+              const editing = !p;
+
+              if (!editing && data?.show && data?.kind === "editing") {
+                setData({ show: false });
+              }
+
+              return editing;
+            });
         }
         break;
       case "KeyR":
