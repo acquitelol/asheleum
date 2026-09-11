@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { getTags } from "@/lib/tags";
 import { useSearchParams } from "react-router-dom";
+import { getTags } from "@/lib/tags";
 
 export type Tag = {
   id: string;

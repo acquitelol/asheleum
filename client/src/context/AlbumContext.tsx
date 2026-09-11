@@ -7,10 +7,10 @@ import {
   useState,
   type RefObject,
 } from "react";
-import { getAlbums } from "@/lib/albums";
-import { useTags, type Tag } from "./TagContext";
-import { useSearchParams } from "react-router-dom";
 import type { ALBUM_FORMATS } from "@/components/albums/AlbumKindFilter";
+import { useSearchParams } from "react-router-dom";
+import { useTags, type Tag } from "./TagContext";
+import { getAlbums } from "@/lib/albums";
 
 export type Album = {
   id: string;

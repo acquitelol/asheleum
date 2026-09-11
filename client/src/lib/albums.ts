@@ -45,6 +45,18 @@ export async function addAlbum(
   return album;
 }
 
+export async function deleteAlbumsBulk(
+  albumIdsToDelete: string[],
+  albums: Album[],
+  setAlbums: Dispatch<SetStateAction<Album[]>>,
+  setAlbumIdsToDelete: Dispatch<SetStateAction<string[]>>,
+  setDeleting: Dispatch<SetStateAction<boolean>>,
+) {
+  albumIdsToDelete.map((albumId) => deleteAlbum(albumId, albums, setAlbums));
+  setAlbumIdsToDelete([]);
+  setDeleting(false);
+}
+
 export async function deleteAlbum(
   albumId: string,
   albums: Album[],

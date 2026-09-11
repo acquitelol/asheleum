@@ -50,6 +50,23 @@ export async function addTag(
   }
 }
 
+export async function deleteTagsBulk(
+  tagIdsToDelete: string[],
+  tags: Tag[],
+  albums: Album[],
+  setTags: Dispatch<SetStateAction<Tag[]>>,
+  setAlbums: Dispatch<SetStateAction<Album[]>>,
+  setTagIdsToDelete: Dispatch<SetStateAction<string[]>>,
+  setDeleting: Dispatch<SetStateAction<boolean>>,
+) {
+  tagIdsToDelete.map((tagId) =>
+    deleteTag(tagId, tags, albums, setTags, setAlbums),
+  );
+
+  setTagIdsToDelete([]);
+  setDeleting(false);
+}
+
 export async function deleteTag(
   tagId: string,
   tags: Tag[],

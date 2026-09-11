@@ -15,11 +15,9 @@ import ConfirmIcon from "@/components/icons/ConfirmIcon";
 import SearchIcon from "@/components/icons/SearchIcon";
 import { useTags } from "@/context/TagContext";
 import { useSearchParams } from "react-router-dom";
-import { deleteTag } from "@/lib/tags";
 import { useNavigate } from "react-router-dom";
 import TagIcon from "../icons/TagIcon";
 import { useModal } from "@/context/ModalContext";
-import { useAlbums } from "@/context/AlbumContext";
 import { useMedia } from "@/context/MediaContext";
 import ListChecksIcon from "../icons/ListChecksIcon";
 
@@ -37,8 +35,6 @@ export default function TagActions({
   showSelectedButton?: boolean;
 }) {
   const {
-    tags,
-    setTags,
     sortDir,
     searchQuery,
     showSelected,
@@ -47,8 +43,8 @@ export default function TagActions({
     setDeleting,
     tagIdsToDelete,
     setTagIdsToDelete,
+    deleteTagsBulk,
   } = useTags();
-  const { albums, setAlbums } = useAlbums();
   const {
     data: { show },
     setData,
@@ -168,14 +164,7 @@ export default function TagActions({
 
         {!home && deleting && (
           <Button
-            onClick={() => {
-              tagIdsToDelete.map((tagId) =>
-                deleteTag(tagId, tags, albums, setTags, setAlbums),
-              );
-
-              setTagIdsToDelete([]);
-              setDeleting(false);
-            }}
+            onClick={deleteTagsBulk}
             kind={"positive"}
             className={`${styles.button}`}
             style={{

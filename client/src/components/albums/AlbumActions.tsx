@@ -14,7 +14,6 @@ import SortDescIcon from "../icons/SortDescIcon";
 import TrashIcon from "../icons/TrashIcon";
 import CancelIcon from "../icons/CancelIcon";
 import ConfirmIcon from "../icons/ConfirmIcon";
-import { deleteAlbum } from "@/lib/albums";
 import SearchIcon from "../icons/SearchIcon";
 import { useTags } from "@/context/TagContext";
 import TagPill from "../tags/TagPill";
@@ -31,8 +30,6 @@ import { useMedia } from "@/context/MediaContext";
 
 export default function AlbumActions() {
   const {
-    albums,
-    setAlbums,
     sortDir,
     searchQuery,
     formatQuery,
@@ -45,6 +42,7 @@ export default function AlbumActions() {
     processedAlbums,
     albumIdsToDelete,
     setAlbumIdsToDelete,
+    deleteAlbumsBulk,
   } = useAlbums();
   const { tags, tagFilter, setTagFilter } = useTags();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -182,14 +180,7 @@ export default function AlbumActions() {
 
         {deleting && (
           <Button
-            onClick={() => {
-              albumIdsToDelete.map((albumId) =>
-                deleteAlbum(albumId, albums, setAlbums),
-              );
-
-              setAlbumIdsToDelete([]);
-              setDeleting(false);
-            }}
+            onClick={deleteAlbumsBulk}
             kind={"positive"}
             className={`${styles.button}`}
             style={{
