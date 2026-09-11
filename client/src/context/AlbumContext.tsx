@@ -82,7 +82,7 @@ export function AlbumProvider({ children }: { children: React.ReactNode }) {
     });
 
     newAlbumRef.current = null;
-  }, [albums, newAlbumId]);
+  }, [newAlbumId]);
 
   const processedAlbums = useMemo(() => {
     const formatFiltered =
